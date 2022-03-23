@@ -1,0 +1,3 @@
+neon-utils~=0.5
+ovos-plugin-manager~=0.0.2
+# TODO: Add any dependencies

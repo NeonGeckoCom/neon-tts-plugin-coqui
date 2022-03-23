@@ -39,7 +39,18 @@ from neon_utils.metrics_utils import Stopwatch
 
 
 class CoquiTTS(TTS):
-    def __init__(self, lang="en-us", config=None):
+    langs = {
+        "en": {
+            "model": "tts_models/en/ljspeech/vits", 
+            "vocoder": None
+        },
+        "pl": {
+            "model": "NeonBohdan/tts-glow-mai-pl", 
+            "vocoder": "vocoder_models/en/ljspeech/hifigan_v2"
+        }
+    }
+
+    def __init__(self, lang="en", config=None):
         config = config or get_neon_tts_config().get("coqui", {})
         super(CoquiTTS, self).__init__(lang, config, CoquiTTSValidator(self),
                                           audio_ext="wav",

@@ -48,7 +48,7 @@ def get_requirements(requirements_filename: str):
     return requirements
 
 
-PLUGIN_ENTRY_POINT = 'tts_module_name = neon_tts_plugin_TODO_NAME:TemplateTTS'  # TODO: Update name and path
+PLUGIN_ENTRY_POINT = 'tts_module_name = neon_tts_plugin_TODO_NAME:CoquiTTS'
 
 with open("README.md", "r") as f:
     long_description = f.read()

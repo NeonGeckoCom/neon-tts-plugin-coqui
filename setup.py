@@ -48,7 +48,7 @@ def get_requirements(requirements_filename: str):
     return requirements
 
 
-PLUGIN_ENTRY_POINT = 'tts_module_name = neon_tts_plugin_TODO_NAME:CoquiTTS'
+PLUGIN_ENTRY_POINT = 'coqui = neon_tts_plugin_TODO_NAME:CoquiTTS'
 
 with open("README.md", "r") as f:
     long_description = f.read()
@@ -62,7 +62,7 @@ with open("./version.py", "r", encoding="utf-8") as v:
                 version = line.split("'")[1]
 
 setup(
-    name='neon-tts-plugin-tts_module_name',  # TODO Update `tts_module_name`
+    name='neon-tts-plugin-coqui',
     version=version,
     description='A TTS plugin for Neon',  # TODO: Add engine/framework name
     long_description=long_description,

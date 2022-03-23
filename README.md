@@ -6,6 +6,6 @@ TTS Plugin for Template Text-to-Speech.  # TODO: Update Name
 # TODO: Specify any optional or required configuration values
 ```yaml
 tts:
-    module: tts_module_name  # TODO: Unique Entry Point Name
-    tts_module_name: {}  # TODO: Any module config
+    module: coqui
+    coqui: {}
 ```

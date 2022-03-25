@@ -8,3 +8,5 @@ TTS ~= 0.6.1
 # neon
 neon-utils~=0.5
 ovos-plugin-manager~=0.0.2
+# huggingface
+huggingface-hub

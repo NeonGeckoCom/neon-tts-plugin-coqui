@@ -82,10 +82,12 @@ class CoquiTTS(TTS):
         LOG.debug(to_speak)
         if to_speak:
             with stopwatch:
-                pass
-                # TODO: Get TTS audio here
-
+                wav_data = self.synt.tts(sentence)
             LOG.debug(f"TTS Synthesis time={stopwatch.time}")
+
+            with stopwatch:
+                self.synt.save_wav(wav_data, output_file)
+            LOG.debug(f"File access time={stopwatch.time}")
 
         return output_file, None
 

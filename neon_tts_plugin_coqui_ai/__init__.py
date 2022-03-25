@@ -61,6 +61,7 @@ class CoquiTTS(TTS):
                                           audio_ext="wav",
                                           ssml_tags=["speak"])
         self.manager = ModelManager()
+        self.synt = self._init_model()
 
     def get_tts(self, sentence: str, output_file: str, speaker: Optional[dict] = None):
         stopwatch = Stopwatch()
@@ -88,6 +89,20 @@ class CoquiTTS(TTS):
 
         return output_file, None
 
+    def _init_model(self):
+        lang_params = self.langs[self.lang]
+        model_name = lang_params["model"]
+        vocoder_name = lang_params["vocoder"]
+
+        model_path, config_path = self._download_model(model_name)
+        vocoder_path, vocoder_config_path = self._download_model(vocoder_name)
+
+        # create synthesizer
+        synt = Synthesizer(tts_checkpoint=model_path,
+                           tts_config_path=config_path,
+                           vocoder_checkpoint=vocoder_path,
+                           vocoder_config=vocoder_config_path)
+        return synt
 
     def _download_model(self, model_name):
         if model_name is None:

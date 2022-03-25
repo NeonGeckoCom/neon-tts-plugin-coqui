@@ -9,3 +9,7 @@ tts:
     module: coqui
     coqui: {}
 ```
+# Requirements:
+`sudo apt install libsndfile1`
+
+Necessary for recording audio files

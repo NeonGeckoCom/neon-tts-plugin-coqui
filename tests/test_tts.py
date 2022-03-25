@@ -48,7 +48,7 @@ class TestTTS(unittest.TestCase):
         try:
             self.tts.playback.stop()
             self.tts.playback.join()
-        except AttributeError:
+        except (AttributeError, RuntimeError):
             pass
 
     def test_speak_no_params(self):

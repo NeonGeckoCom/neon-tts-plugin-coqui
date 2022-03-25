@@ -37,6 +37,11 @@ except ImportError:
     from ovos_plugin_manager.templates.tts import TTS, TTSValidator
 from neon_utils.metrics_utils import Stopwatch
 
+from huggingface_hub import snapshot_download
+
+from TTS.utils.manage import ModelManager
+from TTS.utils.synthesizer import Synthesizer
+
 
 class CoquiTTS(TTS):
     langs = {
@@ -55,7 +60,7 @@ class CoquiTTS(TTS):
         super(CoquiTTS, self).__init__(lang, config, CoquiTTSValidator(self),
                                           audio_ext="wav",
                                           ssml_tags=["speak"])
-        # TODO: Optionally define any class parameters
+        self.manager = ModelManager()
 
     def get_tts(self, sentence: str, output_file: str, speaker: Optional[dict] = None):
         stopwatch = Stopwatch()
@@ -83,6 +88,30 @@ class CoquiTTS(TTS):
 
         return output_file, None
 
+
+    def _download_model(self, model_name):
+        if model_name is None:
+            return None, None
+            
+        prefix = model_name.split("/")[0]
+        if (prefix == "tts_models") or (prefix == "vocoder_models"):
+            model_path, config_path = self._download_coqui(model_name)
+        else:
+            model_path, config_path = self._download_huggingface(model_name)
+
+        return model_path, config_path
+
+    def _download_coqui(self, model_name):
+        model_path, config_path, _ = self.manager.download_model(model_name)
+        return model_path, config_path
+
+    def _download_huggingface(self, model_name):
+        repo_path = snapshot_download(model_name)
+
+        model_path = repo_path + "/model_file.pth.tar"
+        config_path = repo_path + "/config.json"
+        
+        return model_path, config_path
 
 class CoquiTTSValidator(TTSValidator):
     def __init__(self, tts):

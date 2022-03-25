@@ -125,6 +125,8 @@ class CoquiTTS(TTS):
 
         model_path = repo_path + "/model_file.pth.tar"
         config_path = repo_path + "/config.json"
+
+        self.manager._update_paths(repo_path, config_path)
         
         return model_path, config_path
 

@@ -1,3 +1,8 @@
+# version fix
+PyYAML~=5.4
+python-dateutil==2.6.0
+matplotlib~=3.3.4
+numpy==1.19.5
 # dependencies
 TTS ~= 0.6.1
 # neon

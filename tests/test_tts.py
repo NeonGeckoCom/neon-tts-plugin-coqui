@@ -61,6 +61,21 @@ class TestTTS(unittest.TestCase):
         file, _ = self.tts.get_tts("</speak>Hello.", out_file)
         self.assertFalse(os.path.isfile(out_file))
 
+    def test_speak_en(self):
+        speaker = {
+            "language" : "en"
+        }
+        out_file = os.path.join(os.path.dirname(__file__), "test.wav")
+        file, _ = self.tts.get_tts("Hello.", out_file, speaker = speaker)
+        self.assertEqual(file, out_file)
+
+    def test_speak_pl(self):
+        speaker = {
+            "language" : "pl"
+        }
+        out_file = os.path.join(os.path.dirname(__file__), "test.wav")
+        file, _ = self.tts.get_tts("Hej.", out_file, speaker = speaker)
+        self.assertEqual(file, out_file)
 
 if __name__ == '__main__':
     unittest.main()

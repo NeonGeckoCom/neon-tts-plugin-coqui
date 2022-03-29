@@ -61,7 +61,6 @@ class CoquiTTS(TTS):
                                           audio_ext="wav",
                                           ssml_tags=["speak"])
         self.manager = ModelManager()
-        self.synt = self._init_model()
 
     def get_tts(self, sentence: str, output_file: str, speaker: Optional[dict] = None):
         stopwatch = Stopwatch()
@@ -73,26 +72,24 @@ class CoquiTTS(TTS):
         # request_gender = speaker.get("gender", "female")
         # request_voice = speaker.get("voice")
 
-        # TODO: Below is an example of a common ambiguous language code; test and implement or remove
-        # # Catch Chinese alt code
-        # if request_lang.lower() == "zh-zh":
-        #     request_lang = "cmn-cn"
+        request_lang = speaker.get("language",  self.lang)
+        synthesizer = self._init_model(request_lang)
 
         to_speak = format_speak_tags(sentence)
         LOG.debug(to_speak)
         if to_speak:
             with stopwatch:
-                wav_data = self.synt.tts(sentence)
+                wav_data = synthesizer.tts(sentence)
             LOG.debug(f"TTS Synthesis time={stopwatch.time}")
 
             with stopwatch:
-                self.synt.save_wav(wav_data, output_file)
+                synthesizer.save_wav(wav_data, output_file)
             LOG.debug(f"File access time={stopwatch.time}")
 
         return output_file, None
 
-    def _init_model(self):
-        lang_params = self.langs[self.lang]
+    def _init_model(self, lang):
+        lang_params = self.langs[lang]
         model_name = lang_params["model"]
         vocoder_name = lang_params["vocoder"]
 

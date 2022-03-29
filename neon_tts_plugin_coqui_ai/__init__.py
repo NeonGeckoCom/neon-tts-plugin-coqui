@@ -137,7 +137,7 @@ class CoquiTTSValidator(TTSValidator):
         super(CoquiTTSValidator, self).__init__(tts)
 
     def validate_lang(self):
-        if (self.lang not in self.langs):
+        if (self.tts.lang not in CoquiTTS.langs):
             raise KeyError("Language isn't supported")
 
     def validate_dependencies(self):

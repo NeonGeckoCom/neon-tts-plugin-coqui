@@ -1,12 +1,11 @@
 # version fix
 PyYAML~=5.4
-python-dateutil==2.6.0
-matplotlib~=3.3.4
-numpy==1.19.5
+neon-mq-connector~=0.3.0
+ovos-lingua-franca~=0.4.4a2
 # dependencies
 TTS ~= 0.6.1
 # neon
-neon-utils~=0.5
 ovos-plugin-manager~=0.0.2
+neon-utils~=0.15.1a18
 # huggingface
 huggingface-hub

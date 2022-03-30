@@ -72,7 +72,7 @@ class CoquiTTS(TTS):
         # request_gender = speaker.get("gender", "female")
         # request_voice = speaker.get("voice")
 
-        request_lang = speaker.get("language",  self.lang)
+        request_lang = speaker.get("language",  self.lang).split('-')[0]
         synthesizer = self._init_model(request_lang)
 
         to_speak = format_speak_tags(sentence)

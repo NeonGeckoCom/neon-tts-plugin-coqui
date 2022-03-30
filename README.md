@@ -6,7 +6,9 @@ TTS Plugin for Coqui AI Text-to-Speech.
 ```yaml
 tts:
     module: coqui
-    coqui: {}
+    coqui: {
+        cache: true
+    }
 ```
 # Requirements:
 `sudo apt install libsndfile1 espeak espeak-ng`

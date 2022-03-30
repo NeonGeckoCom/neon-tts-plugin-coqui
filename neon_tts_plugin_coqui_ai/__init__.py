@@ -60,7 +60,9 @@ class CoquiTTS(TTS):
         super(CoquiTTS, self).__init__(lang, config, CoquiTTSValidator(self),
                                           audio_ext="wav",
                                           ssml_tags=["speak"])
+        self.engines = {}
         self.manager = ModelManager()
+        self.cache_engines = config.get("cache", True)
 
     def get_tts(self, sentence: str, output_file: str, speaker: Optional[dict] = None):
         stopwatch = Stopwatch()
@@ -97,10 +99,15 @@ class CoquiTTS(TTS):
         vocoder_path, vocoder_config_path = self._download_model(vocoder_name)
 
         # create synthesizer
-        synt = Synthesizer(tts_checkpoint=model_path,
-                           tts_config_path=config_path,
-                           vocoder_checkpoint=vocoder_path,
-                           vocoder_config=vocoder_config_path)
+        if lang not in self.engines:
+            synt = Synthesizer(tts_checkpoint=model_path,
+                               tts_config_path=config_path,
+                               vocoder_checkpoint=vocoder_path,
+                               vocoder_config=vocoder_config_path)
+            if self.cache_engines:
+                self.engines[lang] = synt
+        else:
+            synt = self.engines[lang]
         return synt
 
     def _download_model(self, model_name):

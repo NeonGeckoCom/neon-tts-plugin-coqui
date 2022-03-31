@@ -1,11 +1,16 @@
-# NeonAI Template TTS Plugin  # TODO: Name
+# NeonAI Coqui AI TTS Plugin
 [Mycroft](https://mycroft-ai.gitbook.io/docs/mycroft-technologies/mycroft-core/plugins) compatible
-TTS Plugin for Template Text-to-Speech.  # TODO: Update Name
+TTS Plugin for Coqui AI Text-to-Speech.
 
 # Configuration:
-# TODO: Specify any optional or required configuration values
 ```yaml
 tts:
-    module: tts_module_name  # TODO: Unique Entry Point Name
-    tts_module_name: {}  # TODO: Any module config
+    module: coqui
+    coqui: {
+        cache: true
+    }
 ```
+# Requirements:
+`sudo apt install libsndfile1 espeak espeak-ng`
+
+Necessary for recording audio files

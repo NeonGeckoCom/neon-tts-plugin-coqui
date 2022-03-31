@@ -48,7 +48,7 @@ def get_requirements(requirements_filename: str):
     return requirements
 
 
-PLUGIN_ENTRY_POINT = 'tts_module_name = neon_tts_plugin_TODO_NAME:TemplateTTS'  # TODO: Update name and path
+PLUGIN_ENTRY_POINT = 'coqui = neon_tts_plugin_coqui_ai:CoquiTTS'
 
 with open("README.md", "r") as f:
     long_description = f.read()
@@ -62,12 +62,12 @@ with open("./version.py", "r", encoding="utf-8") as v:
                 version = line.split("'")[1]
 
 setup(
-    name='neon-tts-plugin-tts_module_name',  # TODO Update `tts_module_name`
+    name='neon-tts-plugin-coqui',
     version=version,
-    description='A TTS plugin for Neon',  # TODO: Add engine/framework name
+    description='A Coqui AI TTS plugin for Neon',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/NeonGeckoCom/template-neon-tts-plugin',  # TODO: Update link
+    url='https://github.com/NeonGeckoCom/neon-tts-plugin-coqui-ai',
     author='Neongecko',
     author_email='developers@neon.ai',
     license='BSD-3.0',

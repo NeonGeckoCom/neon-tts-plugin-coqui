@@ -37,14 +37,32 @@ except ImportError:
     from ovos_plugin_manager.templates.tts import TTS, TTSValidator
 from neon_utils.metrics_utils import Stopwatch
 
+from huggingface_hub import snapshot_download
 
-class TemplateTTS(TTS):  # TODO: Replace 'Template' with TTS name
-    def __init__(self, lang="en-us", config=None):
-        config = config or get_neon_tts_config().get("tts_module_name", {})  # TODO: Update name
-        super(TemplateTTS, self).__init__(lang, config, TemplateTTSValidator(self),
-                                          audio_ext="mp3",  # TODO: Specify output audio format
-                                          ssml_tags=["speak"])  # TODO: Specify valid SSML tags
-        # TODO: Optionally define any class parameters
+from TTS.utils.manage import ModelManager
+from TTS.utils.synthesizer import Synthesizer
+
+
+class CoquiTTS(TTS):
+    langs = {
+        "en": {
+            "model": "tts_models/en/ljspeech/vits", 
+            "vocoder": None
+        },
+        "pl": {
+            "model": "NeonBohdan/tts-glow-mai-pl", 
+            "vocoder": "vocoder_models/en/ljspeech/hifigan_v2"
+        }
+    }
+
+    def __init__(self, lang="en", config=None):
+        config = config or get_neon_tts_config().get("coqui", {})
+        super(CoquiTTS, self).__init__(lang, config, CoquiTTSValidator(self),
+                                          audio_ext="wav",
+                                          ssml_tags=["speak"])
+        self.engines = {}
+        self.manager = ModelManager()
+        self.cache_engines = config.get("cache", True)
 
     def get_tts(self, sentence: str, output_file: str, speaker: Optional[dict] = None):
         stopwatch = Stopwatch()
@@ -56,30 +74,75 @@ class TemplateTTS(TTS):  # TODO: Replace 'Template' with TTS name
         # request_gender = speaker.get("gender", "female")
         # request_voice = speaker.get("voice")
 
-        # TODO: Below is an example of a common ambiguous language code; test and implement or remove
-        # # Catch Chinese alt code
-        # if request_lang.lower() == "zh-zh":
-        #     request_lang = "cmn-cn"
+        request_lang = speaker.get("language",  self.lang).split('-')[0]
+        synthesizer = self._init_model(request_lang)
 
         to_speak = format_speak_tags(sentence)
         LOG.debug(to_speak)
         if to_speak:
             with stopwatch:
-                pass
-                # TODO: Get TTS audio here
-
+                wav_data = synthesizer.tts(sentence)
             LOG.debug(f"TTS Synthesis time={stopwatch.time}")
+
+            with stopwatch:
+                synthesizer.save_wav(wav_data, output_file)
+            LOG.debug(f"File access time={stopwatch.time}")
 
         return output_file, None
 
+    def _init_model(self, lang):
+        lang_params = self.langs[lang]
+        model_name = lang_params["model"]
+        vocoder_name = lang_params["vocoder"]
 
-class TemplateTTSValidator(TTSValidator):  # TODO: Replace 'Template' with TTS name
+        model_path, config_path = self._download_model(model_name)
+        vocoder_path, vocoder_config_path = self._download_model(vocoder_name)
+
+        # create synthesizer
+        if lang not in self.engines:
+            synt = Synthesizer(tts_checkpoint=model_path,
+                               tts_config_path=config_path,
+                               vocoder_checkpoint=vocoder_path,
+                               vocoder_config=vocoder_config_path)
+            if self.cache_engines:
+                self.engines[lang] = synt
+        else:
+            synt = self.engines[lang]
+        return synt
+
+    def _download_model(self, model_name):
+        if model_name is None:
+            return None, None
+            
+        prefix = model_name.split("/")[0]
+        if (prefix == "tts_models") or (prefix == "vocoder_models"):
+            model_path, config_path = self._download_coqui(model_name)
+        else:
+            model_path, config_path = self._download_huggingface(model_name)
+
+        return model_path, config_path
+
+    def _download_coqui(self, model_name):
+        model_path, config_path, _ = self.manager.download_model(model_name)
+        return model_path, config_path
+
+    def _download_huggingface(self, model_name):
+        repo_path = snapshot_download(model_name)
+
+        model_path = repo_path + "/model_file.pth.tar"
+        config_path = repo_path + "/config.json"
+
+        self.manager._update_paths(repo_path, config_path)
+        
+        return model_path, config_path
+
+class CoquiTTSValidator(TTSValidator):
     def __init__(self, tts):
-        super(TemplateTTSValidator, self).__init__(tts)
+        super(CoquiTTSValidator, self).__init__(tts)
 
     def validate_lang(self):
-        # TODO: Add some validation of `self.lang` default language
-        pass
+        if (self.tts.lang not in CoquiTTS.langs):
+            raise KeyError("Language isn't supported")
 
     def validate_dependencies(self):
         # TODO: Optionally check dependencies or raise
@@ -90,4 +153,4 @@ class TemplateTTSValidator(TTSValidator):  # TODO: Replace 'Template' with TTS n
         pass
 
     def get_tts_class(self):
-        return TemplateTTS
+        return CoquiTTS

@@ -29,12 +29,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Set up python ${{ matrix.python-version }
+      - name: Set up python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
-          python-version: ${{ matrix.python-version }
+          python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: |
+          sudo apt-get install libsndfile1 espeak espeak-ng
           python -m pip install --upgrade pip
           pip install -r requirements/requirements.txt -r requirements/test_requirements.txt
       - name: Test TTS
@@ -43,6 +44,6 @@ jobs:
       - name: Upload TTS test results
         uses: actions/upload-artifact@v2
         with:
-          name: pytest-results-${{ matrix.python-version }
+          name: pytest-results-${{ matrix.python-version }}
           path: tests/tts-test-results.xml
         if: ${{ always() }}

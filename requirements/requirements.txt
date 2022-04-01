@@ -1,11 +1,9 @@
 # version fix
-PyYAML~=5.4
-neon-mq-connector~=0.3.0
-ovos-lingua-franca~=0.4.4a2
+# pandas~=1.4
 # dependencies
 TTS ~= 0.6.1
 # neon
+neon-utils~=0.15,>=0.15.1a18
 ovos-plugin-manager~=0.0.2
-neon-utils~=0.15.1a18
 # huggingface
 huggingface-hub

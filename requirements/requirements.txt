@@ -1,5 +1,5 @@
 # version fix
-# pandas~=1.4
+ovos-lingua-franca>=0.4.4a2
 # dependencies
 TTS ~= 0.6.1
 # neon

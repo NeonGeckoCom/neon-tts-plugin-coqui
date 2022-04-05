@@ -1,5 +1,5 @@
 # version fix
-pandas~=1.4
+# pandas~=1.4
 # dependencies
 TTS ~= 0.6.1
 # neon

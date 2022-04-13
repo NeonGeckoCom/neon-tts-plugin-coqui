@@ -95,6 +95,15 @@ class CoquiTTS(TTS):
         return output_file, None
 
     def _init_model(self, lang):
+        if lang not in self.engines:
+            synt = self._init_synthesizer(lang)
+            if self.cache_engines:
+                self.engines[lang] = synt
+        else:
+            synt = self.engines[lang]
+        return synt
+
+    def _init_synthesizer(self, lang):
         lang_params = self.langs[lang]
         model_name = lang_params["model"]
         vocoder_name = lang_params["vocoder"]
@@ -102,16 +111,10 @@ class CoquiTTS(TTS):
         model_path, config_path = self._download_model(model_name)
         vocoder_path, vocoder_config_path = self._download_model(vocoder_name)
 
-        # create synthesizer
-        if lang not in self.engines:
-            synt = Synthesizer(tts_checkpoint=model_path,
+        synt = Synthesizer(tts_checkpoint=model_path,
                                tts_config_path=config_path,
                                vocoder_checkpoint=vocoder_path,
                                vocoder_config=vocoder_config_path)
-            if self.cache_engines:
-                self.engines[lang] = synt
-        else:
-            synt = self.engines[lang]
         return synt
 
     def _download_model(self, model_name):

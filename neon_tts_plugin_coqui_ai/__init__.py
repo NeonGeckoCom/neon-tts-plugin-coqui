@@ -55,7 +55,8 @@ class CoquiTTS(TTS):
         },
         "uk": {
             "model": "NeonBohdan/tts-vits-mai-pl-uk", 
-            "vocoder": None
+            "vocoder": None,
+            "default_speaker": "sumska"
         }
     }
 
@@ -78,14 +79,13 @@ class CoquiTTS(TTS):
         # request_gender = speaker.get("gender", "female")
         # request_voice = speaker.get("voice")
 
-        request_lang = speaker.get("language",  self.lang).split('-')[0]
-        synthesizer = self._init_model(request_lang)
+        synthesizer, tts_kwargs = self._init_model(speaker)
 
         to_speak = format_speak_tags(sentence)
         LOG.debug(to_speak)
         if to_speak:
             with stopwatch:
-                wav_data = synthesizer.tts(sentence)
+                wav_data = synthesizer.tts(sentence, **tts_kwargs)
             LOG.debug(f"TTS Synthesis time={stopwatch.time}")
 
             with stopwatch:
@@ -94,14 +94,28 @@ class CoquiTTS(TTS):
 
         return output_file, None
 
-    def _init_model(self, lang):
+    def _init_model(self, speaker):
+        # lang
+        lang = speaker.get("language",  self.lang).split('-')[0]
+        # tts kwargs
+        tts_kwargs = self._init_tts_kwargs(lang, speaker)
+        # synthesizer
         if lang not in self.engines:
             synt = self._init_synthesizer(lang)
             if self.cache_engines:
                 self.engines[lang] = synt
         else:
             synt = self.engines[lang]
-        return synt
+        return synt, tts_kwargs
+
+    def _init_tts_kwargs(self, lang, speaker):
+        default_speaker = "" if ("default_speaker" not in self.langs[lang]) else self.langs[lang]["default_speaker"]
+        speaker_name = speaker.get("voice",  default_speaker)
+        tts_kwargs = {
+            "speaker_name": speaker_name,
+            "language_name": lang
+        }
+        return tts_kwargs
 
     def _init_synthesizer(self, lang):
         lang_params = self.langs[lang]

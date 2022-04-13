@@ -52,6 +52,10 @@ class CoquiTTS(TTS):
         "pl": {
             "model": "NeonBohdan/tts-glow-mai-pl", 
             "vocoder": "vocoder_models/en/ljspeech/hifigan_v2"
+        },
+        "uk": {
+            "model": "NeonBohdan/tts-vits-mai-pl-uk", 
+            "vocoder": None
         }
     }
 

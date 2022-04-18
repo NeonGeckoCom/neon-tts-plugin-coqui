@@ -79,13 +79,13 @@ class CoquiTTS(TTS):
         to_speak = format_speak_tags(sentence)
         LOG.debug(to_speak)
         if to_speak:
-            wav_data, synthesizer = self.get_audio(sentence, speaker)
+            wav_data, synthesizer = self.get_audio(sentence, speaker, audio_format = "internal")
 
             self._audio_to_file(wav_data, synthesizer, output_file)
 
         return output_file, None
 
-    def get_audio(self, sentence: str, speaker: Optional[dict] = None):
+    def get_audio(self, sentence: str, speaker: Optional[dict] = None, audio_format: str = "internal"):
         stopwatch = Stopwatch()
         speaker = speaker or dict()
 
@@ -95,7 +95,10 @@ class CoquiTTS(TTS):
             wav_data = synthesizer.tts(sentence, **tts_kwargs)
         LOG.debug(f"TTS Synthesis time={stopwatch.time}")
 
-        return wav_data, synthesizer
+        if audio_format == "internal":
+            return wav_data, synthesizer
+        elif audio_format == "ipython":
+            return self._audio_to_ipython(wav_data, synthesizer)
 
     def _audio_to_file(self, wav_data: list, synthesizer: Synthesizer, output_file: str):
         stopwatch = Stopwatch()
@@ -103,6 +106,13 @@ class CoquiTTS(TTS):
         with stopwatch:
             synthesizer.save_wav(wav_data, output_file)
         LOG.debug(f"File access time={stopwatch.time}")
+
+    def _audio_to_ipython(self, wav_data: list, synthesizer: Synthesizer):
+        ipython_dict = {
+            "data": wav_data,
+            "rate": synthesizer.output_sample_rate
+        }
+        return ipython_dict
 
     def _init_model(self, speaker):
         # lang

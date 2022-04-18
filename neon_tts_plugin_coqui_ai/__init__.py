@@ -88,11 +88,16 @@ class CoquiTTS(TTS):
                 wav_data = synthesizer.tts(sentence, **tts_kwargs)
             LOG.debug(f"TTS Synthesis time={stopwatch.time}")
 
-            with stopwatch:
-                synthesizer.save_wav(wav_data, output_file)
-            LOG.debug(f"File access time={stopwatch.time}")
+            self._audio_to_file(wav_data, synthesizer, output_file)
 
         return output_file, None
+
+    def _audio_to_file(self, wav_data: list, synthesizer: Synthesizer, output_file: str):
+        stopwatch = Stopwatch()
+
+        with stopwatch:
+            synthesizer.save_wav(wav_data, output_file)
+        LOG.debug(f"File access time={stopwatch.time}")
 
     def _init_model(self, speaker):
         # lang

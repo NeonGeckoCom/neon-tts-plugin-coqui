@@ -85,5 +85,13 @@ class TestTTS(unittest.TestCase):
         file, _ = self.tts.get_tts("Привіт.", out_file, speaker = speaker)
         self.assertEqual(file, out_file)
 
+    def test_ipython_format(self):
+        speaker = {
+            "language" : "uk"
+        }
+        out_file = os.path.join(os.path.dirname(__file__), "test.wav")
+        ipython_dict = self.tts.get_audio("Привіт.", speaker = speaker, audio_format="ipython")
+        self.assertIsInstance(ipython_dict, dict)
+
 if __name__ == '__main__':
     unittest.main()

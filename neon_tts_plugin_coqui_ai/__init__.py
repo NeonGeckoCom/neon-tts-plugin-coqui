@@ -70,27 +70,32 @@ class CoquiTTS(TTS):
         self.cache_engines = config.get("cache", True)
 
     def get_tts(self, sentence: str, output_file: str, speaker: Optional[dict] = None):
-        stopwatch = Stopwatch()
-        speaker = speaker or dict()
-
         # TODO: speaker params are optionally defined and should be handled whenever defined
         # # Read utterance data from passed configuration
         # request_lang = speaker.get("language",  self.lang)
         # request_gender = speaker.get("gender", "female")
         # request_voice = speaker.get("voice")
 
-        synthesizer, tts_kwargs = self._init_model(speaker)
-
         to_speak = format_speak_tags(sentence)
         LOG.debug(to_speak)
         if to_speak:
-            with stopwatch:
-                wav_data = synthesizer.tts(sentence, **tts_kwargs)
-            LOG.debug(f"TTS Synthesis time={stopwatch.time}")
+            wav_data, synthesizer = self.get_audio(sentence, speaker)
 
             self._audio_to_file(wav_data, synthesizer, output_file)
 
         return output_file, None
+
+    def get_audio(self, sentence: str, speaker: Optional[dict] = None):
+        stopwatch = Stopwatch()
+        speaker = speaker or dict()
+
+        synthesizer, tts_kwargs = self._init_model(speaker)
+
+        with stopwatch:
+            wav_data = synthesizer.tts(sentence, **tts_kwargs)
+        LOG.debug(f"TTS Synthesis time={stopwatch.time}")
+
+        return wav_data, synthesizer
 
     def _audio_to_file(self, wav_data: list, synthesizer: Synthesizer, output_file: str):
         stopwatch = Stopwatch()

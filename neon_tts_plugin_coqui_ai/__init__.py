@@ -68,6 +68,8 @@ class CoquiTTS(TTS):
         self.engines = {}
         self.manager = ModelManager()
         self.cache_engines = config.get("cache", True)
+        if self.cache_engines:
+            self._init_model({"lang": lang})
 
     def get_tts(self, sentence: str, output_file: str, speaker: Optional[dict] = None):
         # TODO: speaker params are optionally defined and should be handled whenever defined
@@ -127,11 +129,12 @@ class CoquiTTS(TTS):
 
     def _init_model(self, speaker):
         # lang
-        lang = speaker.get("language",  self.lang).split('-')[0]
+        lang = speaker.get("language", self.lang).split('-')[0]
         # tts kwargs
         tts_kwargs = self._init_tts_kwargs(lang, speaker)
         # synthesizer
         if lang not in self.engines:
+            LOG.info(f"Initializing model for: {lang}")
             synt = self._init_synthesizer(lang)
             if self.cache_engines:
                 self.engines[lang] = synt

@@ -139,7 +139,7 @@ class CoquiTTS(TTS):
             if self.cache_engines:
                 self.engines[lang] = synt
         else:
-            LOG.info(f"Using loaded model for: {lang}")
+            LOG.debug(f"Using loaded model for: {lang}")
             synt = self.engines[lang]
         return synt, tts_kwargs
 

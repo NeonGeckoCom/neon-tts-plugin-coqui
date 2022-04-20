@@ -86,6 +86,17 @@ class CoquiTTS(TTS):
         return output_file, None
 
     def get_audio(self, sentence: str, speaker: Optional[dict] = None, audio_format: str = "internal"):
+        """Use this method for accessing generated audio in a format convenient for you
+
+        Examples:
+            Run in IPython Notebook.
+
+            >>> from neon_tts_plugin_coqui_ai import CoquiTTS
+            >>> import IPython
+            >>> tts = CoquiTTS("uk")
+            >>> ipython_dict = tts.get_audio("Привіт хлопче", audio_format="ipython")
+            >>> IPython.display.display(IPython.display.Audio(**ipython_dict,  autoplay=True))
+        """
         stopwatch = Stopwatch()
         speaker = speaker or dict()
 

@@ -70,29 +70,60 @@ class CoquiTTS(TTS):
         self.cache_engines = config.get("cache", True)
 
     def get_tts(self, sentence: str, output_file: str, speaker: Optional[dict] = None):
-        stopwatch = Stopwatch()
-        speaker = speaker or dict()
-
         # TODO: speaker params are optionally defined and should be handled whenever defined
         # # Read utterance data from passed configuration
         # request_lang = speaker.get("language",  self.lang)
         # request_gender = speaker.get("gender", "female")
         # request_voice = speaker.get("voice")
 
-        synthesizer, tts_kwargs = self._init_model(speaker)
-
         to_speak = format_speak_tags(sentence)
         LOG.debug(to_speak)
         if to_speak:
-            with stopwatch:
-                wav_data = synthesizer.tts(sentence, **tts_kwargs)
-            LOG.debug(f"TTS Synthesis time={stopwatch.time}")
+            wav_data, synthesizer = self.get_audio(sentence, speaker, audio_format = "internal")
 
-            with stopwatch:
-                synthesizer.save_wav(wav_data, output_file)
-            LOG.debug(f"File access time={stopwatch.time}")
+            self._audio_to_file(wav_data, synthesizer, output_file)
 
         return output_file, None
+
+    def get_audio(self, sentence: str, speaker: Optional[dict] = None, audio_format: str = "internal"):
+        """Use this method for accessing generated audio in a format convenient for you
+
+        Examples:
+            Run in IPython Notebook.
+
+            >>> from neon_tts_plugin_coqui_ai import CoquiTTS
+            >>> import IPython
+            >>> tts = CoquiTTS("uk")
+            >>> ipython_dict = tts.get_audio("Привіт хлопче", audio_format="ipython")
+            >>> IPython.display.display(IPython.display.Audio(**ipython_dict,  autoplay=True))
+        """
+        stopwatch = Stopwatch()
+        speaker = speaker or dict()
+
+        synthesizer, tts_kwargs = self._init_model(speaker)
+
+        with stopwatch:
+            wav_data = synthesizer.tts(sentence, **tts_kwargs)
+        LOG.debug(f"TTS Synthesis time={stopwatch.time}")
+
+        if audio_format == "internal":
+            return wav_data, synthesizer
+        elif audio_format == "ipython":
+            return self._audio_to_ipython(wav_data, synthesizer)
+
+    def _audio_to_file(self, wav_data: list, synthesizer: Synthesizer, output_file: str):
+        stopwatch = Stopwatch()
+
+        with stopwatch:
+            synthesizer.save_wav(wav_data, output_file)
+        LOG.debug(f"File access time={stopwatch.time}")
+
+    def _audio_to_ipython(self, wav_data: list, synthesizer: Synthesizer):
+        ipython_dict = {
+            "data": wav_data,
+            "rate": synthesizer.output_sample_rate
+        }
+        return ipython_dict
 
     def _init_model(self, speaker):
         # lang

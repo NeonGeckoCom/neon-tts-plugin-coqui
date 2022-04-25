@@ -85,7 +85,6 @@ class CoquiTTS(TTS):
         # request_lang = speaker.get("language",  self.lang)
         # request_gender = speaker.get("gender", "female")
         # request_voice = speaker.get("voice")
-        LOG.info(f"RAM={self._get_mem_usage()} MiB")
 
         to_speak = format_speak_tags(sentence)
         LOG.debug(to_speak)
@@ -116,6 +115,7 @@ class CoquiTTS(TTS):
         with stopwatch:
             wav_data = synthesizer.tts(sentence, **tts_kwargs)
         LOG.debug(f"TTS Synthesis time={stopwatch.time}")
+        LOG.info(f"RAM={self._get_mem_usage()} MiB")
 
         if audio_format == "internal":
             return wav_data, synthesizer
@@ -151,6 +151,7 @@ class CoquiTTS(TTS):
         else:
             LOG.debug(f"Using loaded model for: {lang}")
             synt = self.engines[lang]
+        LOG.info(f"RAM={self._get_mem_usage()} MiB")
         return synt, tts_kwargs
 
     def _init_tts_kwargs(self, lang, speaker):
@@ -171,9 +172,9 @@ class CoquiTTS(TTS):
         vocoder_path, vocoder_config_path = self._download_model(vocoder_name)
 
         synt = Synthesizer(tts_checkpoint=model_path,
-                               tts_config_path=config_path,
-                               vocoder_checkpoint=vocoder_path,
-                               vocoder_config=vocoder_config_path)
+                           tts_config_path=config_path,
+                           vocoder_checkpoint=vocoder_path,
+                           vocoder_config=vocoder_config_path)
         return synt
 
     def _download_model(self, model_name):

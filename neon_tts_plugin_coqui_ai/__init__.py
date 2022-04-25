@@ -26,6 +26,9 @@
 # NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE,  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+import os
+import psutil
+
 from typing import Optional
 from neon_utils.configuration_utils import get_neon_tts_config
 from neon_utils.logger import LOG
@@ -44,6 +47,7 @@ from TTS.utils.synthesizer import Synthesizer
 
 
 class CoquiTTS(TTS):
+    proc = psutil.Process(os.getpid())
     langs = {
         "en": {
             "model": "tts_models/en/ljspeech/vits", 
@@ -69,6 +73,7 @@ class CoquiTTS(TTS):
         self.manager = ModelManager()
         self.cache_engines = config.get("cache", True)
         if self.cache_engines:
+            LOG.info(f"RAM={self.proc.memory_info().rss}")
             self._init_model({"lang": lang})
 
     def get_tts(self, sentence: str, output_file: str, speaker: Optional[dict] = None):
@@ -77,6 +82,7 @@ class CoquiTTS(TTS):
         # request_lang = speaker.get("language",  self.lang)
         # request_gender = speaker.get("gender", "female")
         # request_voice = speaker.get("voice")
+        LOG.info(f"RAM={self.proc.memory_info().rss}")
 
         to_speak = format_speak_tags(sentence)
         LOG.debug(to_speak)
@@ -128,6 +134,7 @@ class CoquiTTS(TTS):
         return ipython_dict
 
     def _init_model(self, speaker):
+        LOG.info(f"RAM={self.proc.memory_info().rss}")
         # lang
         lang = speaker.get("language", self.lang).split('-')[0]
         # tts kwargs

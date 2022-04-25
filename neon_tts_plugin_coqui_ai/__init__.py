@@ -64,6 +64,9 @@ class CoquiTTS(TTS):
         }
     }
 
+    def _get_mem_usage(self):
+        return self.proc.memory_info().rss / 1048576  # b to MiB
+
     def __init__(self, lang="en", config=None):
         config = config or get_neon_tts_config().get("coqui", {})
         super(CoquiTTS, self).__init__(lang, config, CoquiTTSValidator(self),
@@ -73,7 +76,7 @@ class CoquiTTS(TTS):
         self.manager = ModelManager()
         self.cache_engines = config.get("cache", True)
         if self.cache_engines:
-            LOG.info(f"RAM={self.proc.memory_info().rss}")
+            LOG.info(f"RAM={self._get_mem_usage()} MiB")
             self._init_model({"lang": lang})
 
     def get_tts(self, sentence: str, output_file: str, speaker: Optional[dict] = None):
@@ -82,7 +85,7 @@ class CoquiTTS(TTS):
         # request_lang = speaker.get("language",  self.lang)
         # request_gender = speaker.get("gender", "female")
         # request_voice = speaker.get("voice")
-        LOG.info(f"RAM={self.proc.memory_info().rss}")
+        LOG.info(f"RAM={self._get_mem_usage()} MiB")
 
         to_speak = format_speak_tags(sentence)
         LOG.debug(to_speak)
@@ -134,7 +137,7 @@ class CoquiTTS(TTS):
         return ipython_dict
 
     def _init_model(self, speaker):
-        LOG.info(f"RAM={self.proc.memory_info().rss}")
+        LOG.info(f"RAM={self._get_mem_usage()} MiB")
         # lang
         lang = speaker.get("language", self.lang).split('-')[0]
         # tts kwargs

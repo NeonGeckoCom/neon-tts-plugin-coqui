@@ -70,8 +70,8 @@ class CoquiTTS(TTS):
     def __init__(self, lang="en", config=None):
         config = config or get_neon_tts_config().get("coqui", {})
         super(CoquiTTS, self).__init__(lang, config, CoquiTTSValidator(self),
-                                          audio_ext="wav",
-                                          ssml_tags=["speak"])
+                                       audio_ext="wav",
+                                       ssml_tags=["speak"])
         self.engines = {}
         self.manager = ModelManager()
         self.cache_engines = config.get("cache", True)
@@ -92,6 +92,10 @@ class CoquiTTS(TTS):
             wav_data, synthesizer = self.get_audio(sentence, speaker, audio_format = "internal")
 
             self._audio_to_file(wav_data, synthesizer, output_file)
+            if not self.cache_engines:
+                LOG.info(f"RAM={self._get_mem_usage()} MiB")
+                del synthesizer
+                LOG.info(f"RAM={self._get_mem_usage()} MiB")
 
         return output_file, None
 
@@ -112,8 +116,10 @@ class CoquiTTS(TTS):
 
         synthesizer, tts_kwargs = self._init_model(speaker)
 
+        LOG.info(f"RAM={self._get_mem_usage()} MiB")
         with stopwatch:
             wav_data = synthesizer.tts(sentence, **tts_kwargs)
+
         LOG.debug(f"TTS Synthesis time={stopwatch.time}")
         LOG.info(f"RAM={self._get_mem_usage()} MiB")
 
@@ -137,7 +143,6 @@ class CoquiTTS(TTS):
         return ipython_dict
 
     def _init_model(self, speaker):
-        LOG.info(f"RAM={self._get_mem_usage()} MiB")
         # lang
         lang = speaker.get("language", self.lang).split('-')[0]
         # tts kwargs
@@ -202,6 +207,7 @@ class CoquiTTS(TTS):
         self.manager._update_paths(repo_path, config_path)
         
         return model_path, config_path
+
 
 class CoquiTTSValidator(TTSValidator):
     def __init__(self, tts):

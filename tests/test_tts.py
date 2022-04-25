@@ -92,5 +92,6 @@ class TestTTS(unittest.TestCase):
         self.assertTrue({"data", "rate"} <= {*ipython_dict})
         self.assertIsInstance(ipython_dict["data"], list)
 
+
 if __name__ == '__main__':
     unittest.main()

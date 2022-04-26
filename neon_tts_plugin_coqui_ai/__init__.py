@@ -153,6 +153,7 @@ class CoquiTTS(TTS):
         else:
             LOG.debug(f"Using loaded model for: {lang}")
             synt = self.engines[lang]
+        LOG.info(f"RAM={self._get_mem_usage()} MiB")
         return synt, tts_kwargs
 
     def _init_tts_kwargs(self, lang, speaker):

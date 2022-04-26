@@ -48,7 +48,6 @@ from TTS.utils.synthesizer import Synthesizer
 
 class CoquiTTS(TTS):
     proc = psutil.Process(os.getpid())
-    memory_usage = []
 
     langs = {
         "en": {
@@ -115,6 +114,7 @@ class CoquiTTS(TTS):
         synthesizer, tts_kwargs = self._init_model(speaker)
 
         with stopwatch:
+            # TODO: It appears that the memory usage grows with this call
             wav_data = synthesizer.tts(sentence, **tts_kwargs)
 
         LOG.debug(f"TTS Synthesis time={stopwatch.time}")

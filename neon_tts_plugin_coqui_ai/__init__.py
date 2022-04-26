@@ -48,6 +48,8 @@ from TTS.utils.synthesizer import Synthesizer
 
 class CoquiTTS(TTS):
     proc = psutil.Process(os.getpid())
+    memory_usage = []
+
     langs = {
         "en": {
             "model": "tts_models/en/ljspeech/vits", 
@@ -60,7 +62,7 @@ class CoquiTTS(TTS):
         "uk": {
             "model": "NeonBohdan/tts-vits-mai-uk", 
             "vocoder": None,
-            #"default_speaker": "sumska"
+            # "default_speaker": "sumska"
         }
     }
 
@@ -92,10 +94,6 @@ class CoquiTTS(TTS):
             wav_data, synthesizer = self.get_audio(sentence, speaker, audio_format = "internal")
 
             self._audio_to_file(wav_data, synthesizer, output_file)
-            if not self.cache_engines:
-                LOG.info(f"RAM={self._get_mem_usage()} MiB")
-                del synthesizer
-                LOG.info(f"RAM={self._get_mem_usage()} MiB")
 
         return output_file, None
 
@@ -116,7 +114,6 @@ class CoquiTTS(TTS):
 
         synthesizer, tts_kwargs = self._init_model(speaker)
 
-        LOG.info(f"RAM={self._get_mem_usage()} MiB")
         with stopwatch:
             wav_data = synthesizer.tts(sentence, **tts_kwargs)
 
@@ -156,7 +153,6 @@ class CoquiTTS(TTS):
         else:
             LOG.debug(f"Using loaded model for: {lang}")
             synt = self.engines[lang]
-        LOG.info(f"RAM={self._get_mem_usage()} MiB")
         return synt, tts_kwargs
 
     def _init_tts_kwargs(self, lang, speaker):

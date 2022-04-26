@@ -5,3 +5,5 @@ neon-utils~=0.15,>=0.15.1a18
 ovos-plugin-manager~=0.0.2
 # huggingface
 huggingface-hub
+psutil
+# TODO: Remove psutil after memory usage resolved

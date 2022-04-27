@@ -28,6 +28,7 @@
 
 import os
 import psutil
+import ctypes
 
 from typing import Optional
 from neon_utils.configuration_utils import get_neon_tts_config
@@ -140,6 +141,12 @@ class CoquiTTS(TTS):
             "rate": synthesizer.output_sample_rate
         }
         return ipython_dict
+
+    @staticmethod
+    def _trim_memory() -> int:
+        "If possible, gives memory allocated by PyTorch back to the system"
+        libc = ctypes.CDLL("libc.so.6")
+        return libc.malloc_trim(0)
 
     def _init_model(self, speaker):
         # lang

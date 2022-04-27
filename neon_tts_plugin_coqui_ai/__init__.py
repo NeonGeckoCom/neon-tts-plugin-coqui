@@ -42,6 +42,7 @@ from neon_utils.metrics_utils import Stopwatch
 
 from huggingface_hub import snapshot_download
 
+from torch import no_grad
 from TTS.utils.manage import ModelManager
 from TTS.utils.synthesizer import Synthesizer
 
@@ -115,7 +116,8 @@ class CoquiTTS(TTS):
 
         with stopwatch:
             # TODO: It appears that the memory usage grows with this call
-            wav_data = synthesizer.tts(sentence, **tts_kwargs)
+            with no_grad():
+                wav_data = synthesizer.tts(sentence, **tts_kwargs)
 
         LOG.debug(f"TTS Synthesis time={stopwatch.time}")
         LOG.info(f"RAM={self._get_mem_usage()} MiB")

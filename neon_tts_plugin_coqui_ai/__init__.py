@@ -119,6 +119,7 @@ class CoquiTTS(TTS):
             # TODO: It appears that the memory usage grows with this call
             with no_grad():
                 wav_data = synthesizer.tts(sentence, **tts_kwargs)
+                self._trim_memory()
 
         LOG.debug(f"TTS Synthesis time={stopwatch.time}")
         LOG.info(f"RAM={self._get_mem_usage()} MiB")

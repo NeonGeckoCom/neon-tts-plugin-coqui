@@ -1,7 +1,7 @@
 # dependencies
 TTS == 0.6.2
 # neon
-neon-utils~=0.15,>=0.15.1a18
+neon-utils~=0.16
 ovos-plugin-manager~=0.0.2
 # huggingface
 huggingface-hub

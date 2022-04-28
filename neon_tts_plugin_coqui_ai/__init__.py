@@ -26,6 +26,11 @@
 # NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE,  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+import os
+import psutil
+import ctypes
+import gc
+
 from typing import Optional
 from neon_utils.configuration_utils import get_neon_tts_config
 from neon_utils.logger import LOG
@@ -39,11 +44,14 @@ from neon_utils.metrics_utils import Stopwatch
 
 from huggingface_hub import snapshot_download
 
+from torch import no_grad
 from TTS.utils.manage import ModelManager
 from TTS.utils.synthesizer import Synthesizer
 
 
 class CoquiTTS(TTS):
+    proc = psutil.Process(os.getpid())
+
     langs = {
         "en": {
             "model": "tts_models/en/ljspeech/vits", 
@@ -56,18 +64,23 @@ class CoquiTTS(TTS):
         "uk": {
             "model": "NeonBohdan/tts-vits-mai-uk", 
             "vocoder": None,
-            #"default_speaker": "sumska"
+            # "default_speaker": "sumska"
         }
     }
+
+    def _get_mem_usage(self):
+        return self.proc.memory_info().rss / 1048576  # b to MiB
 
     def __init__(self, lang="en", config=None):
         config = config or get_neon_tts_config().get("coqui", {})
         super(CoquiTTS, self).__init__(lang, config, CoquiTTSValidator(self),
-                                          audio_ext="wav",
-                                          ssml_tags=["speak"])
+                                       audio_ext="wav",
+                                       ssml_tags=["speak"])
         self.engines = {}
         self.manager = ModelManager()
         self.cache_engines = config.get("cache", True)
+        if self.cache_engines:
+            self._init_model({"lang": lang})
 
     def get_tts(self, sentence: str, output_file: str, speaker: Optional[dict] = None):
         # TODO: speaker params are optionally defined and should be handled whenever defined
@@ -103,8 +116,13 @@ class CoquiTTS(TTS):
         synthesizer, tts_kwargs = self._init_model(speaker)
 
         with stopwatch:
-            wav_data = synthesizer.tts(sentence, **tts_kwargs)
+            # TODO: It appears that the memory usage grows with this call
+            with no_grad():
+                wav_data = synthesizer.tts(sentence, **tts_kwargs)
+                self._trim_memory()
+
         LOG.debug(f"TTS Synthesis time={stopwatch.time}")
+        LOG.debug(f"RAM={self._get_mem_usage()} MiB")
 
         if audio_format == "internal":
             return wav_data, synthesizer
@@ -125,18 +143,30 @@ class CoquiTTS(TTS):
         }
         return ipython_dict
 
+    @staticmethod
+    def _trim_memory():
+        """
+        If possible, gives memory allocated by PyTorch back to the system
+        """
+        libc = ctypes.CDLL("libc.so.6")
+        libc.malloc_trim(0)
+        gc.collect()
+
     def _init_model(self, speaker):
         # lang
-        lang = speaker.get("language",  self.lang).split('-')[0]
+        lang = speaker.get("language", self.lang).split('-')[0]
         # tts kwargs
         tts_kwargs = self._init_tts_kwargs(lang, speaker)
         # synthesizer
         if lang not in self.engines:
+            LOG.info(f"Initializing model for: {lang}")
             synt = self._init_synthesizer(lang)
             if self.cache_engines:
                 self.engines[lang] = synt
         else:
+            LOG.debug(f"Using loaded model for: {lang}")
             synt = self.engines[lang]
+        LOG.debug(f"RAM={self._get_mem_usage()} MiB")
         return synt, tts_kwargs
 
     def _init_tts_kwargs(self, lang, speaker):
@@ -157,9 +187,9 @@ class CoquiTTS(TTS):
         vocoder_path, vocoder_config_path = self._download_model(vocoder_name)
 
         synt = Synthesizer(tts_checkpoint=model_path,
-                               tts_config_path=config_path,
-                               vocoder_checkpoint=vocoder_path,
-                               vocoder_config=vocoder_config_path)
+                           tts_config_path=config_path,
+                           vocoder_checkpoint=vocoder_path,
+                           vocoder_config=vocoder_config_path)
         return synt
 
     def _download_model(self, model_name):
@@ -187,6 +217,7 @@ class CoquiTTS(TTS):
         self.manager._update_paths(repo_path, config_path)
         
         return model_path, config_path
+
 
 class CoquiTTSValidator(TTSValidator):
     def __init__(self, tts):

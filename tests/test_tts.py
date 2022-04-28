@@ -31,7 +31,7 @@ import sys
 import unittest
 from pprint import pprint
 
-sys.path.append(os.path.join(os.path.dirname(__file__), "res"))
+# sys.path.append(os.path.join(os.path.dirname(__file__), "res"))
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from neon_tts_plugin_coqui_ai import CoquiTTS
 
@@ -91,6 +91,7 @@ class TestTTS(unittest.TestCase):
         self.assertIsInstance(ipython_dict, dict)
         self.assertTrue({"data", "rate"} <= {*ipython_dict})
         self.assertIsInstance(ipython_dict["data"], list)
+
 
 if __name__ == '__main__':
     unittest.main()

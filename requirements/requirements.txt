@@ -6,4 +6,3 @@ ovos-plugin-manager~=0.0.2
 # huggingface
 huggingface-hub
 psutil
-# TODO: Remove psutil after memory usage resolved

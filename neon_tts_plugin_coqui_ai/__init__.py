@@ -28,7 +28,8 @@
 
 import os
 import psutil
-import ctypes, gc
+import ctypes
+import gc
 
 from typing import Optional
 from neon_utils.configuration_utils import get_neon_tts_config
@@ -79,7 +80,6 @@ class CoquiTTS(TTS):
         self.manager = ModelManager()
         self.cache_engines = config.get("cache", True)
         if self.cache_engines:
-            LOG.info(f"RAM={self._get_mem_usage()} MiB")
             self._init_model({"lang": lang})
 
     def get_tts(self, sentence: str, output_file: str, speaker: Optional[dict] = None):
@@ -122,7 +122,7 @@ class CoquiTTS(TTS):
                 self._trim_memory()
 
         LOG.debug(f"TTS Synthesis time={stopwatch.time}")
-        LOG.info(f"RAM={self._get_mem_usage()} MiB")
+        LOG.debug(f"RAM={self._get_mem_usage()} MiB")
 
         if audio_format == "internal":
             return wav_data, synthesizer
@@ -144,12 +144,13 @@ class CoquiTTS(TTS):
         return ipython_dict
 
     @staticmethod
-    def _trim_memory() -> int:
-        "If possible, gives memory allocated by PyTorch back to the system"
+    def _trim_memory():
+        """
+        If possible, gives memory allocated by PyTorch back to the system
+        """
         libc = ctypes.CDLL("libc.so.6")
         libc.malloc_trim(0)
         gc.collect()
-        return 
 
     def _init_model(self, speaker):
         # lang
@@ -165,7 +166,7 @@ class CoquiTTS(TTS):
         else:
             LOG.debug(f"Using loaded model for: {lang}")
             synt = self.engines[lang]
-        LOG.info(f"RAM={self._get_mem_usage()} MiB")
+        LOG.debug(f"RAM={self._get_mem_usage()} MiB")
         return synt, tts_kwargs
 
     def _init_tts_kwargs(self, lang, speaker):

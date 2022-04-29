@@ -68,7 +68,11 @@ class CoquiTTS(TTS):
         }
     }
 
-    def _get_mem_usage(self):
+    def _get_mem_usage(self) -> str:
+        """
+        Get the current process memory usage in MiB
+        Returns: str memory usage in MiB
+        """
         return self.proc.memory_info().rss / 1048576  # b to MiB
 
     def __init__(self, lang="en", config=None):
@@ -82,25 +86,37 @@ class CoquiTTS(TTS):
         if self.cache_engines:
             self._init_model({"lang": lang})
 
-    def get_tts(self, sentence: str, output_file: str, speaker: Optional[dict] = None):
-        # TODO: speaker params are optionally defined and should be handled whenever defined
-        # # Read utterance data from passed configuration
-        # request_lang = speaker.get("language",  self.lang)
-        # request_gender = speaker.get("gender", "female")
-        # request_voice = speaker.get("voice")
+    def get_tts(self, sentence: str, output_file: str,
+                speaker: Optional[dict] = None) -> (str, Optional[str]):
+        """
+        Get Synthesized audio
+        Args:
+            sentence: string to synthesize
+            output_file: path to output audio file
+            speaker: optional dict speaker data
+
+        Returns:
+            tuple wav_file, optional phonemes
+        """
 
         to_speak = format_speak_tags(sentence)
         LOG.debug(to_speak)
         if to_speak:
-            wav_data, synthesizer = self.get_audio(sentence, speaker, audio_format = "internal")
+            wav_data, synthesizer = self.get_audio(sentence, speaker,
+                                                   audio_format="internal")
 
             self._audio_to_file(wav_data, synthesizer, output_file)
 
         return output_file, None
 
-    def get_audio(self, sentence: str, speaker: Optional[dict] = None, audio_format: str = "internal"):
-        """Use this method for accessing generated audio in a format convenient for you
-
+    def get_audio(self, sentence: str, speaker: Optional[dict] = None,
+                  audio_format: str = "internal"):
+        """
+        Use this method for accessing generated audio in a format convenient for you
+        Args:
+            sentence: string to synthesize
+            speaker: optional dict speaker data
+            audio_format: str audio format to return ('internal' or 'ipython')
         Examples:
             Run in IPython Notebook.
 
@@ -116,7 +132,6 @@ class CoquiTTS(TTS):
         synthesizer, tts_kwargs = self._init_model(speaker)
 
         with stopwatch:
-            # TODO: It appears that the memory usage grows with this call
             with no_grad():
                 wav_data = synthesizer.tts(sentence, **tts_kwargs)
                 self._trim_memory()
@@ -129,14 +144,33 @@ class CoquiTTS(TTS):
         elif audio_format == "ipython":
             return self._audio_to_ipython(wav_data, synthesizer)
 
-    def _audio_to_file(self, wav_data: list, synthesizer: Synthesizer, output_file: str):
+    @staticmethod
+    def _audio_to_file(wav_data: list, synthesizer: Synthesizer,
+                       output_file: str):
+        """
+        Write synthesized audio to a file
+        Args:
+            wav_data: wav_data returned by `synthesizer.tts`
+            synthesizer: synthesizer object used to generate `wav_data`
+            output_file: output path to write
+        """
         stopwatch = Stopwatch()
 
         with stopwatch:
             synthesizer.save_wav(wav_data, output_file)
         LOG.debug(f"File access time={stopwatch.time}")
 
-    def _audio_to_ipython(self, wav_data: list, synthesizer: Synthesizer):
+    @staticmethod
+    def _audio_to_ipython(wav_data: list, synthesizer: Synthesizer) -> dict:
+        """
+        Get a dict representation of synthesized audio for IPython display
+        Args:
+            wav_data: wav_data returned by `synthesizer.tts`
+            synthesizer: synthesizer object used to generate `wav_data`
+
+        Returns:
+            dict to be displayed with IPython
+        """
         ipython_dict = {
             "data": wav_data,
             "rate": synthesizer.output_sample_rate
@@ -152,7 +186,18 @@ class CoquiTTS(TTS):
         libc.malloc_trim(0)
         gc.collect()
 
-    def _init_model(self, speaker):
+    def _init_model(self, speaker: dict) -> (Synthesizer, dict):
+        """
+        Initialize a synthesizer for the specified speaker
+        Args:
+            speaker: dict speaker to initialize a model for with keys:
+                `language` - language code
+                `gender` - optional synthesizer gender requested
+                `voice` - optional synthesizer voice requested
+
+        Returns:
+            tuple Synthesizer, parsed tts kwargs from `speaker`
+        """
         # lang
         lang = speaker.get("language", self.lang).split('-')[0]
         # tts kwargs
@@ -169,8 +214,21 @@ class CoquiTTS(TTS):
         LOG.debug(f"RAM={self._get_mem_usage()} MiB")
         return synt, tts_kwargs
 
-    def _init_tts_kwargs(self, lang, speaker):
-        default_speaker = "" if ("default_speaker" not in self.langs[lang]) else self.langs[lang]["default_speaker"]
+    def _init_tts_kwargs(self, lang: str, speaker: dict) -> dict:
+        """
+        Parse language and speaker requests into a valid dict of tts kwargs
+        Args:
+            lang: 2-letter ISO 639-1 Language code
+            speaker: additional optional speaker parameters requested
+                `gender` - optional synthesizer gender requested
+                `voice` - optional synthesizer voice requested
+
+        Returns:
+            parsed tts kwargs to pass to synthesizer init
+        """
+        # TODO: handle speaker['gender'] here DM
+        default_speaker = "" if ("default_speaker" not in self.langs[lang]) \
+            else self.langs[lang]["default_speaker"]
         speaker_name = speaker.get("voice",  default_speaker)
         tts_kwargs = {
             "speaker_name": speaker_name,
@@ -178,7 +236,15 @@ class CoquiTTS(TTS):
         }
         return tts_kwargs
 
-    def _init_synthesizer(self, lang):
+    def _init_synthesizer(self, lang: str) -> Synthesizer:
+        """
+        Create a Synthesizer for the requested language
+        Args:
+            lang: 2-letter ISO 639-1 Language code
+        Returns:
+            Synthesizer initialized with a model for the requested `lang`
+        """
+        # TODO: Handle optional `name` and `gender` model specs
         lang_params = self.langs[lang]
         model_name = lang_params["model"]
         vocoder_name = lang_params["vocoder"]
@@ -192,7 +258,15 @@ class CoquiTTS(TTS):
                            vocoder_config=vocoder_config_path)
         return synt
 
-    def _download_model(self, model_name):
+    def _download_model(self, model_name: str) -> (str, str):
+        """
+        Download a requested model
+        Args:
+            model_name: Name of model to download
+
+        Returns:
+            tuple model_path, config_path
+        """
         if model_name is None:
             return None, None
             
@@ -204,11 +278,27 @@ class CoquiTTS(TTS):
 
         return model_path, config_path
 
-    def _download_coqui(self, model_name):
+    def _download_coqui(self, model_name) -> (str, str):
+        """
+        Download a model from Coqui
+        Args:
+            model_name: name of model to download
+
+        Returns:
+            tuple model_path, config_path
+        """
         model_path, config_path, _ = self.manager.download_model(model_name)
         return model_path, config_path
 
-    def _download_huggingface(self, model_name):
+    def _download_huggingface(self, model_name) -> (str, str):
+        """
+        Download a model from Huggingface
+        Args:
+            model_name: name of model to download
+
+        Returns:
+            tuple model_path, config_path
+        """
         repo_path = snapshot_download(model_name)
 
         model_path = repo_path + "/model_file.pth.tar"

@@ -31,14 +31,14 @@ import sys
 import unittest
 from pprint import pprint
 
-sys.path.append(os.path.join(os.path.dirname(__file__), "res"))
+# sys.path.append(os.path.join(os.path.dirname(__file__), "res"))
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from neon_tts_plugin_TODO_NAME import TemplateTTS  # TODO: Update Import
+from neon_tts_plugin_coqui_ai import CoquiTTS
 
 
 class TestTTS(unittest.TestCase):
     def setUp(self) -> None:
-        self.tts = TemplateTTS()
+        self.tts = CoquiTTS()
 
     def doCleanups(self) -> None:
         try:
@@ -48,7 +48,7 @@ class TestTTS(unittest.TestCase):
         try:
             self.tts.playback.stop()
             self.tts.playback.join()
-        except AttributeError:
+        except (AttributeError, RuntimeError):
             pass
 
     def test_speak_no_params(self):
@@ -60,6 +60,37 @@ class TestTTS(unittest.TestCase):
         out_file = os.path.join(os.path.dirname(__file__), "test2.wav")
         file, _ = self.tts.get_tts("</speak>Hello.", out_file)
         self.assertFalse(os.path.isfile(out_file))
+
+    def test_speak_en(self):
+        speaker = {
+            "language" : "en"
+        }
+        out_file = os.path.join(os.path.dirname(__file__), "test.wav")
+        file, _ = self.tts.get_tts("Hello.", out_file, speaker = speaker)
+        self.assertEqual(file, out_file)
+
+    def test_speak_pl(self):
+        speaker = {
+            "language" : "pl"
+        }
+        out_file = os.path.join(os.path.dirname(__file__), "test.wav")
+        file, _ = self.tts.get_tts("Hej.", out_file, speaker = speaker)
+        self.assertEqual(file, out_file)
+
+    def test_speak_uk(self):
+        speaker = {
+            "language" : "uk"
+        }
+        out_file = os.path.join(os.path.dirname(__file__), "test.wav")
+        file, _ = self.tts.get_tts("Привіт.", out_file, speaker = speaker)
+        self.assertEqual(file, out_file)
+
+    def test_ipython_format(self):
+        out_file = os.path.join(os.path.dirname(__file__), "test.wav")
+        ipython_dict = self.tts.get_audio("Hello.", audio_format="ipython")
+        self.assertIsInstance(ipython_dict, dict)
+        self.assertTrue({"data", "rate"} <= {*ipython_dict})
+        self.assertIsInstance(ipython_dict["data"], list)
 
 
 if __name__ == '__main__':

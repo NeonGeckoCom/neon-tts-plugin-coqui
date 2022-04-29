@@ -1,3 +1,8 @@
-neon-utils~=0.5
+# dependencies
+TTS == 0.6.2
+# neon
+neon-utils~=0.16
 ovos-plugin-manager~=0.0.2
-# TODO: Add any dependencies
+# huggingface
+huggingface-hub
+psutil

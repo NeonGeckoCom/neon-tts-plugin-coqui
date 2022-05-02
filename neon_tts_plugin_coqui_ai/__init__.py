@@ -32,18 +32,10 @@ import ctypes
 import gc
 
 from typing import Optional
-from neon_utils.configuration_utils import get_neon_tts_config
-from neon_utils.logger import LOG
-from neon_utils.parse_utils import format_speak_tags
-
-try:
-    from neon_audio.tts import TTS, TTSValidator
-except ImportError:
-    from ovos_plugin_manager.templates.tts import TTS, TTSValidator
-from neon_utils.metrics_utils import Stopwatch
-
+from ovos_utils.log import LOG
+from ovos_plugin_manager.templates.tts import TTS, TTSValidator
+from ovos_utils.metrics import Stopwatch
 from huggingface_hub import snapshot_download
-
 from torch import no_grad
 from TTS.utils.manage import ModelManager
 from TTS.utils.synthesizer import Synthesizer
@@ -75,14 +67,13 @@ class CoquiTTS(TTS):
         """
         return self.proc.memory_info().rss / 1048576  # b to MiB
 
-    def __init__(self, lang="en", config=None):
-        config = config or get_neon_tts_config().get("coqui", {})
+    def __init__(self, lang="en", config=None, *args, **kwargs):
         super(CoquiTTS, self).__init__(lang, config, CoquiTTSValidator(self),
                                        audio_ext="wav",
                                        ssml_tags=["speak"])
         self.engines = {}
         self.manager = ModelManager()
-        self.cache_engines = config.get("cache", True)
+        self.cache_engines = self.config.get("cache", True)
         if self.cache_engines:
             self._init_model({"lang": lang})
 
@@ -98,15 +89,9 @@ class CoquiTTS(TTS):
         Returns:
             tuple wav_file, optional phonemes
         """
-
-        to_speak = format_speak_tags(sentence)
-        LOG.debug(to_speak)
-        if to_speak:
-            wav_data, synthesizer = self.get_audio(sentence, speaker,
-                                                   audio_format="internal")
-
-            self._audio_to_file(wav_data, synthesizer, output_file)
-
+        wav_data, synthesizer = self.get_audio(sentence, speaker,
+                                               audio_format="internal")
+        self._audio_to_file(wav_data, synthesizer, output_file)
         return output_file, None
 
     def get_audio(self, sentence: str, speaker: Optional[dict] = None,

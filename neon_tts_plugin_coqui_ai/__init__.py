@@ -62,9 +62,9 @@ class CoquiTTS(TTS):
             "vocoder": "vocoder_models/en/ljspeech/hifigan_v2"
         },
         "uk": {
-            "model": "NeonBohdan/tts-vits-mai-uk", 
+            "model": "NeonBohdan/tts-vits-mai-uk-ru", 
             "vocoder": None,
-            # "default_speaker": "sumska"
+            "default_speaker": "sumska"
         }
     }
 

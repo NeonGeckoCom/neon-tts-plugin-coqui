@@ -21,7 +21,7 @@ jobs:
           python -m pip install build wheel
       - name: Build Distribution Packages
         run: |
-          python setup.py bdist_wheel
+          python setup.py sdist bdist_wheel
   unit_tests:
     strategy:
       matrix:

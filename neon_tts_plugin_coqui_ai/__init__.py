@@ -58,8 +58,9 @@ class CoquiTTS(TTS):
             "vocoder": None
         },
         "pl": {
-            "model": "NeonBohdan/tts-glow-mai-pl", 
-            "vocoder": "vocoder_models/en/ljspeech/hifigan_v2"
+            "model": "NeonBohdan/tts-vits-mai-pl", 
+            "vocoder": None,
+            "default_speaker": "nina_brown"
         },
         "uk": {
             "model": "NeonBohdan/tts-vits-mai-uk-ru", 

@@ -50,12 +50,12 @@ class CoquiTTS(TTS):
             "vocoder": None
         },
         "pl": {
-            "model": "NeonBohdan/tts-vits-mai-pl", 
+            "model": "neongeckocom/tts-vits-mai-pl", 
             "vocoder": None,
             "default_speaker": "nina_brown"
         },
         "uk": {
-            "model": "NeonBohdan/tts-vits-mai-uk-ru", 
+            "model": "neongeckocom/tts-vits-mai-uk", 
             "vocoder": None,
             "default_speaker": "sumska"
         }

@@ -48,7 +48,7 @@ def get_requirements(requirements_filename: str):
     return requirements
 
 
-PLUGIN_ENTRY_POINT = 'neon-tts-plugin-coqui = neon_tts_plugin_coqui_ai:CoquiTTS'
+PLUGIN_ENTRY_POINT = 'neon-tts-plugin-coqui = neon_tts_plugin_coqui:CoquiTTS'
 
 with open("README.md", "r") as f:
     long_description = f.read()

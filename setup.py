@@ -67,7 +67,7 @@ setup(
     description='A Coqui AI TTS plugin for Neon',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/NeonGeckoCom/neon-tts-plugin-coqui-ai',
+    url='https://github.com/NeonGeckoCom/neon-tts-plugin-coqui',
     author='Neongecko',
     author_email='developers@neon.ai',
     license='BSD-3.0',

@@ -106,7 +106,7 @@ class CoquiTTS(TTS):
         Examples:
             Run in IPython Notebook.
 
-            >>> from neon_tts_plugin_coqui_ai import CoquiTTS
+            >>> from neon_tts_plugin_coqui import CoquiTTS
             >>> import IPython
             >>> tts = CoquiTTS("uk")
             >>> ipython_dict = tts.get_audio("Привіт хлопче", audio_format="ipython")

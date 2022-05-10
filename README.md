@@ -5,8 +5,8 @@ TTS Plugin for Coqui AI Text-to-Speech.
 # Configuration:
 ```yaml
 tts:
-    module: neon-tts-plugin-coqui
-    neon-tts-plugin-coqui: {
+    module: coqui
+    coqui: {
         cache: true
     }
 ```

@@ -215,7 +215,7 @@ class CoquiTTS(TTS):
         # TODO: handle speaker['gender'] here DM
         default_speaker = "" if ("default_speaker" not in self.langs[lang]) \
             else self.langs[lang]["default_speaker"]
-        speaker_name = speaker.get("voice",  default_speaker)
+        speaker_name = speaker.get("voice") or default_speaker
         tts_kwargs = {
             "speaker_name": speaker_name,
             "language_name": lang

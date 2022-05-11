@@ -116,7 +116,7 @@ class CoquiTTS(TTS):
         speaker = speaker or dict()
 
         synthesizer, tts_kwargs = self._init_model(speaker)
-
+        LOG.info(f"tts_kwargs={tts_kwargs}")
         with stopwatch:
             with no_grad():
                 wav_data = synthesizer.tts(sentence, **tts_kwargs)
@@ -220,6 +220,7 @@ class CoquiTTS(TTS):
             "speaker_name": speaker_name,
             "language_name": lang
         }
+        LOG.info(f"tts_kwargs={tts_kwargs}")
         return tts_kwargs
 
     def _init_synthesizer(self, lang: str) -> Synthesizer:

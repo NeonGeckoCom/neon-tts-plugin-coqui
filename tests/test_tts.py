@@ -38,7 +38,7 @@ from neon_tts_plugin_coqui import CoquiTTS
 
 class TestTTS(unittest.TestCase):
     def setUp(self) -> None:
-        self.tts = CoquiTTS()
+        self.tts = CoquiTTS(config={"cache":False})
 
     def doCleanups(self) -> None:
         try:

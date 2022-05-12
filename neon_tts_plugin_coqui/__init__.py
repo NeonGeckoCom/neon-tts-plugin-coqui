@@ -116,7 +116,6 @@ class CoquiTTS(TTS):
         speaker = speaker or dict()
 
         synthesizer, tts_kwargs = self._init_model(speaker)
-
         with stopwatch:
             with no_grad():
                 wav_data = synthesizer.tts(sentence, **tts_kwargs)
@@ -215,11 +214,12 @@ class CoquiTTS(TTS):
         # TODO: handle speaker['gender'] here DM
         default_speaker = "" if ("default_speaker" not in self.langs[lang]) \
             else self.langs[lang]["default_speaker"]
-        speaker_name = speaker.get("voice",  default_speaker)
+        speaker_name = speaker.get("voice") or default_speaker
         tts_kwargs = {
             "speaker_name": speaker_name,
             "language_name": lang
         }
+        LOG.debug(f"tts_kwargs={tts_kwargs}")
         return tts_kwargs
 
     def _init_synthesizer(self, lang: str) -> Synthesizer:

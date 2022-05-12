@@ -46,7 +46,7 @@ class CoquiTTS(TTS):
 
     langs = {
         "en": {
-            "model": "tts_models/en/ljspeech/vits", 
+            "model": "neongeckocom/tts-vits-ljspeech-en", 
             "vocoder": None
         },
         "pl": {

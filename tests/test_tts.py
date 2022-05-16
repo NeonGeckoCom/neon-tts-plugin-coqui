@@ -33,12 +33,12 @@ from pprint import pprint
 
 # sys.path.append(os.path.join(os.path.dirname(__file__), "res"))
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from neon_tts_plugin_coqui_ai import CoquiTTS
+from neon_tts_plugin_coqui import CoquiTTS
 
 
 class TestTTS(unittest.TestCase):
     def setUp(self) -> None:
-        self.tts = CoquiTTS()
+        self.tts = CoquiTTS(config={"cache":False})
 
     def doCleanups(self) -> None:
         try:
@@ -55,11 +55,6 @@ class TestTTS(unittest.TestCase):
         out_file = os.path.join(os.path.dirname(__file__), "test.wav")
         file, _ = self.tts.get_tts("Hello.", out_file)
         self.assertEqual(file, out_file)
-
-    def test_empty_speak(self):
-        out_file = os.path.join(os.path.dirname(__file__), "test2.wav")
-        file, _ = self.tts.get_tts("</speak>Hello.", out_file)
-        self.assertFalse(os.path.isfile(out_file))
 
     def test_speak_en(self):
         speaker = {

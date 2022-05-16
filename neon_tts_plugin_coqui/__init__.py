@@ -32,18 +32,10 @@ import ctypes
 import gc
 
 from typing import Optional
-from neon_utils.configuration_utils import get_neon_tts_config
-from neon_utils.logger import LOG
-from neon_utils.parse_utils import format_speak_tags
-
-try:
-    from neon_audio.tts import TTS, TTSValidator
-except ImportError:
-    from ovos_plugin_manager.templates.tts import TTS, TTSValidator
-from neon_utils.metrics_utils import Stopwatch
-
+from ovos_utils.log import LOG
+from ovos_plugin_manager.templates.tts import TTS, TTSValidator
+from ovos_utils.metrics import Stopwatch
 from huggingface_hub import snapshot_download
-
 from torch import no_grad
 from TTS.utils.manage import ModelManager
 from TTS.utils.synthesizer import Synthesizer
@@ -54,17 +46,18 @@ class CoquiTTS(TTS):
 
     langs = {
         "en": {
-            "model": "tts_models/en/ljspeech/vits", 
+            "model": "neongeckocom/tts-vits-ljspeech-en", 
             "vocoder": None
         },
         "pl": {
-            "model": "NeonBohdan/tts-glow-mai-pl", 
-            "vocoder": "vocoder_models/en/ljspeech/hifigan_v2"
+            "model": "neongeckocom/tts-vits-mai-pl", 
+            "vocoder": None,
+            "default_speaker": "nina_brown"
         },
         "uk": {
-            "model": "NeonBohdan/tts-vits-mai-uk", 
+            "model": "neongeckocom/tts-vits-mai-uk", 
             "vocoder": None,
-            # "default_speaker": "sumska"
+            "default_speaker": "sumska"
         }
     }
 
@@ -75,14 +68,13 @@ class CoquiTTS(TTS):
         """
         return self.proc.memory_info().rss / 1048576  # b to MiB
 
-    def __init__(self, lang="en", config=None):
-        config = config or get_neon_tts_config().get("coqui", {})
+    def __init__(self, lang="en", config=None, *args, **kwargs):
         super(CoquiTTS, self).__init__(lang, config, CoquiTTSValidator(self),
                                        audio_ext="wav",
                                        ssml_tags=["speak"])
         self.engines = {}
         self.manager = ModelManager()
-        self.cache_engines = config.get("cache", True)
+        self.cache_engines = self.config.get("cache", True)
         if self.cache_engines:
             self._init_model({"lang": lang})
 
@@ -98,15 +90,9 @@ class CoquiTTS(TTS):
         Returns:
             tuple wav_file, optional phonemes
         """
-
-        to_speak = format_speak_tags(sentence)
-        LOG.debug(to_speak)
-        if to_speak:
-            wav_data, synthesizer = self.get_audio(sentence, speaker,
-                                                   audio_format="internal")
-
-            self._audio_to_file(wav_data, synthesizer, output_file)
-
+        wav_data, synthesizer = self.get_audio(sentence, speaker,
+                                               audio_format="internal")
+        self._audio_to_file(wav_data, synthesizer, output_file)
         return output_file, None
 
     def get_audio(self, sentence: str, speaker: Optional[dict] = None,
@@ -120,7 +106,7 @@ class CoquiTTS(TTS):
         Examples:
             Run in IPython Notebook.
 
-            >>> from neon_tts_plugin_coqui_ai import CoquiTTS
+            >>> from neon_tts_plugin_coqui import CoquiTTS
             >>> import IPython
             >>> tts = CoquiTTS("uk")
             >>> ipython_dict = tts.get_audio("Привіт хлопче", audio_format="ipython")
@@ -130,7 +116,6 @@ class CoquiTTS(TTS):
         speaker = speaker or dict()
 
         synthesizer, tts_kwargs = self._init_model(speaker)
-
         with stopwatch:
             with no_grad():
                 wav_data = synthesizer.tts(sentence, **tts_kwargs)
@@ -229,11 +214,12 @@ class CoquiTTS(TTS):
         # TODO: handle speaker['gender'] here DM
         default_speaker = "" if ("default_speaker" not in self.langs[lang]) \
             else self.langs[lang]["default_speaker"]
-        speaker_name = speaker.get("voice",  default_speaker)
+        speaker_name = speaker.get("voice") or default_speaker
         tts_kwargs = {
             "speaker_name": speaker_name,
             "language_name": lang
         }
+        LOG.debug(f"tts_kwargs={tts_kwargs}")
         return tts_kwargs
 
     def _init_synthesizer(self, lang: str) -> Synthesizer:

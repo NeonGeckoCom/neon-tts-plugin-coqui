@@ -21,7 +21,7 @@ jobs:
           python -m pip install build wheel
       - name: Build Distribution Packages
         run: |
-          python setup.py bdist_wheel
+          python setup.py sdist bdist_wheel
   unit_tests:
     strategy:
       matrix:
@@ -35,7 +35,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: |
-          sudo apt-get install libsndfile1 espeak espeak-ng
+          sudo apt-get install libsndfile1 espeak-ng
           python -m pip install --upgrade pip wheel
           pip install -r requirements/requirements.txt -r requirements/test_requirements.txt
       - name: Test TTS

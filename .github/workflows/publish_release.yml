@@ -33,7 +33,7 @@ jobs:
 
       - name: Build Distribution Packages
         run: |
-          python setup.py bdist_wheel
+          python setup.py sdist bdist_wheel
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@master
         with:

@@ -11,6 +11,19 @@ tts:
     }
 ```
 # Requirements:
-`sudo apt install libsndfile1 espeak espeak-ng`
+`sudo apt install libsndfile1 espeak-ng`
 
 Necessary for recording audio files
+
+## Docker
+
+A docker container using [ovos-tts-server](https://github.com/OpenVoiceOS/ovos-tts-server) is available
+
+You can build and run it locally
+
+```bash
+docker build . -t coquitts
+docker run -p 8080:9666 coquitts
+```
+
+use it `http://localhost:8080/synthesize/hello`

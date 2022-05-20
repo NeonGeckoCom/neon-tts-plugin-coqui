@@ -47,15 +47,12 @@ class CoquiTTS(TTS):
     langs = {
         "en": {
             "model": "neongeckocom/tts-vits-ljspeech-en", 
-            "vocoder": None
         },
         "pl": {
             "model": "neongeckocom/tts-vits-mai-pl", 
-            "vocoder": None,
         },
         "uk": {
             "model": "neongeckocom/tts-vits-mai-uk", 
-            "vocoder": None,
         }
     }
 
@@ -234,7 +231,7 @@ class CoquiTTS(TTS):
         # TODO: Handle optional `name` and `gender` model specs
         lang_params = self.langs[lang]
         model_name = lang_params["model"]
-        vocoder_name = lang_params["vocoder"]
+        vocoder_name = lang_params.get("vocoder", None)
 
         model_path, config_path = self._download_model(model_name)
         vocoder_path, vocoder_config_path = self._download_model(vocoder_name)

@@ -52,12 +52,10 @@ class CoquiTTS(TTS):
         "pl": {
             "model": "neongeckocom/tts-vits-mai-pl", 
             "vocoder": None,
-            "default_speaker": "nina_brown"
         },
         "uk": {
             "model": "neongeckocom/tts-vits-mai-uk", 
             "vocoder": None,
-            "default_speaker": "sumska"
         }
     }
 
@@ -212,9 +210,7 @@ class CoquiTTS(TTS):
             parsed tts kwargs to pass to synthesizer init
         """
         # TODO: handle speaker['gender'] here DM
-        default_speaker = "" if ("default_speaker" not in self.langs[lang]) \
-            else self.langs[lang]["default_speaker"]
-        speaker_name = speaker.get("voice") or default_speaker
+        speaker_name = speaker.get("voice") or lang
         tts_kwargs = {
             "speaker_name": speaker_name,
             "language_name": lang

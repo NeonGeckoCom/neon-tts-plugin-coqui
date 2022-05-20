@@ -46,16 +46,13 @@ class CoquiTTS(TTS):
 
     langs = {
         "en": {
-            "model": "neongeckocom/tts-vits-ljspeech-en", 
-            "vocoder": None
+            "model": "neongeckocom/tts-vits-ljspeech-en@v0.1", 
         },
         "pl": {
-            "model": "neongeckocom/tts-vits-mai-pl", 
-            "vocoder": None,
+            "model": "neongeckocom/tts-vits-mai-pl@v0.3", 
         },
         "uk": {
-            "model": "neongeckocom/tts-vits-mai-uk", 
-            "vocoder": None,
+            "model": "neongeckocom/tts-vits-mai-uk@v0.5", 
         }
     }
 
@@ -234,7 +231,7 @@ class CoquiTTS(TTS):
         # TODO: Handle optional `name` and `gender` model specs
         lang_params = self.langs[lang]
         model_name = lang_params["model"]
-        vocoder_name = lang_params["vocoder"]
+        vocoder_name = lang_params.get("vocoder", None)
 
         model_path, config_path = self._download_model(model_name)
         vocoder_path, vocoder_config_path = self._download_model(vocoder_name)
@@ -286,7 +283,12 @@ class CoquiTTS(TTS):
         Returns:
             tuple model_path, config_path
         """
-        repo_path = snapshot_download(model_name)
+
+        # get revision
+        model_name, *suffix = model_name.split("@")
+        revision = dict(enumerate(suffix)).get(0, None)
+
+        repo_path = snapshot_download(model_name, revision=revision)
 
         model_path = repo_path + "/model_file.pth.tar"
         config_path = repo_path + "/config.json"

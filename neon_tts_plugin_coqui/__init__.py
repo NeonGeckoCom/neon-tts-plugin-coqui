@@ -283,7 +283,12 @@ class CoquiTTS(TTS):
         Returns:
             tuple model_path, config_path
         """
-        repo_path = snapshot_download(model_name)
+
+        # get revision
+        model_name, *suffix = model_name.split("@")
+        revision = dict(enumerate(suffix)).get(0, None)
+
+        repo_path = snapshot_download(model_name, revision=revision)
 
         model_path = repo_path + "/model_file.pth.tar"
         config_path = repo_path + "/config.json"

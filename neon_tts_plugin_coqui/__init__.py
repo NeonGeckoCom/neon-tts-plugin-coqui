@@ -183,8 +183,6 @@ class CoquiTTS(TTS):
         """
         # lang
         lang = speaker.get("language", self.lang).split('-')[0]
-        # tts kwargs
-        tts_kwargs = self._init_tts_kwargs(lang, speaker)
         # synthesizer
         if lang not in self.engines:
             LOG.info(f"Initializing model for: {lang}")
@@ -194,10 +192,13 @@ class CoquiTTS(TTS):
         else:
             LOG.debug(f"Using loaded model for: {lang}")
             synt = self.engines[lang]
+        # tts kwargs
+        tts_kwargs = self._init_tts_kwargs(lang, speaker, synt)
+        # log
         LOG.debug(f"RAM={self._get_mem_usage()} MiB")
         return synt, tts_kwargs
 
-    def _init_tts_kwargs(self, lang: str, speaker: dict) -> dict:
+    def _init_tts_kwargs(self, lang: str, speaker: dict, synthesizer: Synthesizer) -> dict:
         """
         Parse language and speaker requests into a valid dict of tts kwargs
         Args:
@@ -215,6 +216,10 @@ class CoquiTTS(TTS):
             "speaker_name": speaker_name,
             "language_name": lang
         }
+        # handle multi-speaker
+        if not hasattr(synthesizer.tts_model.speaker_manager, "ids"):
+            tts_kwargs["speaker_name"] = ""
+        # log
         LOG.debug(f"tts_kwargs={tts_kwargs}")
         return tts_kwargs
 

@@ -52,7 +52,7 @@ class CoquiTTS(TTS):
             "model": "neongeckocom/tts-vits-mai-pl@v0.3", 
         },
         "uk": {
-            "model": "neongeckocom/tts-vits-mai-uk@v0.5", 
+            "model": "neongeckocom/tts-vits-mai-uk@v0.6", 
         }
     }
 

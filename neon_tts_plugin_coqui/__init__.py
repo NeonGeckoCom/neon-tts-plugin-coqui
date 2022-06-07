@@ -37,8 +37,6 @@ from ovos_plugin_manager.templates.tts import TTS, TTSValidator
 from ovos_utils.metrics import Stopwatch
 from huggingface_hub import snapshot_download
 from torch import no_grad
-from TTS.utils.manage import ModelManager
-from TTS.utils.synthesizer import Synthesizer
 
 
 class CoquiTTS(TTS):
@@ -71,7 +69,6 @@ class CoquiTTS(TTS):
                                        audio_ext="wav",
                                        ssml_tags=["speak"])
         self.engines = {}
-        self.manager = ModelManager()
         self.cache_engines = self.config.get("cache", True)
         if self.cache_engines:
             self._init_model({"lang": lang})
@@ -128,7 +125,7 @@ class CoquiTTS(TTS):
             return self._audio_to_ipython(wav_data, synthesizer)
 
     @staticmethod
-    def _audio_to_file(wav_data: list, synthesizer: Synthesizer,
+    def _audio_to_file(wav_data: list, synthesizer: object,
                        output_file: str):
         """
         Write synthesized audio to a file
@@ -144,7 +141,7 @@ class CoquiTTS(TTS):
         LOG.debug(f"File access time={stopwatch.time}")
 
     @staticmethod
-    def _audio_to_ipython(wav_data: list, synthesizer: Synthesizer) -> dict:
+    def _audio_to_ipython(wav_data: list, synthesizer: object) -> dict:
         """
         Get a dict representation of synthesized audio for IPython display
         Args:
@@ -169,7 +166,7 @@ class CoquiTTS(TTS):
         libc.malloc_trim(0)
         gc.collect()
 
-    def _init_model(self, speaker: dict) -> (Synthesizer, dict):
+    def _init_model(self, speaker: dict) -> (object, dict):
         """
         Initialize a synthesizer for the specified speaker
         Args:
@@ -198,7 +195,7 @@ class CoquiTTS(TTS):
         LOG.debug(f"RAM={self._get_mem_usage()} MiB")
         return synt, tts_kwargs
 
-    def _init_tts_kwargs(self, lang: str, speaker: dict, synthesizer: Synthesizer) -> dict:
+    def _init_tts_kwargs(self, lang: str, speaker: dict, synthesizer: object) -> dict:
         """
         Parse language and speaker requests into a valid dict of tts kwargs
         Args:
@@ -223,7 +220,7 @@ class CoquiTTS(TTS):
         LOG.debug(f"tts_kwargs={tts_kwargs}")
         return tts_kwargs
 
-    def _init_synthesizer(self, lang: str) -> Synthesizer:
+    def _init_synthesizer(self, lang: str) -> object:
         """
         Create a Synthesizer for the requested language
         Args:

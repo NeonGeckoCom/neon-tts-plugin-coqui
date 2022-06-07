@@ -35,8 +35,8 @@ from typing import Optional
 from ovos_utils.log import LOG
 from ovos_plugin_manager.templates.tts import TTS, TTSValidator
 from ovos_utils.metrics import Stopwatch
-from huggingface_hub import snapshot_download
-from torch import no_grad
+from huggingface_hub import hf_hub_download
+from torch import no_grad, package
 
 
 class CoquiTTS(TTS):
@@ -231,18 +231,14 @@ class CoquiTTS(TTS):
         # TODO: Handle optional `name` and `gender` model specs
         lang_params = self.langs[lang]
         model_name = lang_params["model"]
-        vocoder_name = lang_params.get("vocoder", None)
 
-        model_path, config_path = self._download_model(model_name)
-        vocoder_path, vocoder_config_path = self._download_model(vocoder_name)
+        model_path = self._download_huggingface(model_name)
 
-        synt = Synthesizer(tts_checkpoint=model_path,
-                           tts_config_path=config_path,
-                           vocoder_checkpoint=vocoder_path,
-                           vocoder_config=vocoder_config_path)
+        importer = package.PackageImporter(model_path)
+        synt = importer.load_pickle("tts_models", "model")
         return synt
 
-    def _download_huggingface(self, model_name) -> (str, str):
+    def _download_huggingface(self, model_name) -> str:
         """
         Download a model from Huggingface
         Args:
@@ -256,14 +252,9 @@ class CoquiTTS(TTS):
         model_name, *suffix = model_name.split("@")
         revision = dict(enumerate(suffix)).get(0, None)
 
-        repo_path = snapshot_download(model_name, revision=revision)
+        model_path = hf_hub_download(model_name, "model.pt", revision=revision)
 
-        model_path = repo_path + "/model_file.pth.tar"
-        config_path = repo_path + "/config.json"
-
-        self.manager._update_paths(repo_path, config_path)
-        
-        return model_path, config_path
+        return model_path
 
 
 class CoquiTTSValidator(TTSValidator):

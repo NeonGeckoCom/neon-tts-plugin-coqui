@@ -46,16 +46,16 @@ class CoquiTTS(TTS):
 
     langs = {
         "en": {
-            "model": "neongeckocom/tts-vits-ljspeech-en@v0.1", 
+            "model": "neongeckocom/tts-vits-ljspeech-en@v0.2", 
         },
         "fr": {
             "model": "neongeckocom/tts-vits-css10-fr@v0.1", 
         },
         "pl": {
-            "model": "neongeckocom/tts-vits-mai-pl@v0.3", 
+            "model": "neongeckocom/tts-vits-mai-pl@v0.4", 
         },
         "uk": {
-            "model": "neongeckocom/tts-vits-mai-uk@v0.6", 
+            "model": "neongeckocom/tts-vits-mai-uk@v0.7", 
         }
     }
 

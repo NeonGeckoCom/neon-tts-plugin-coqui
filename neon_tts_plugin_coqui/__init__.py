@@ -242,38 +242,6 @@ class CoquiTTS(TTS):
                            vocoder_config=vocoder_config_path)
         return synt
 
-    def _download_model(self, model_name: str) -> (str, str):
-        """
-        Download a requested model
-        Args:
-            model_name: Name of model to download
-
-        Returns:
-            tuple model_path, config_path
-        """
-        if model_name is None:
-            return None, None
-            
-        prefix = model_name.split("/")[0]
-        if (prefix == "tts_models") or (prefix == "vocoder_models"):
-            model_path, config_path = self._download_coqui(model_name)
-        else:
-            model_path, config_path = self._download_huggingface(model_name)
-
-        return model_path, config_path
-
-    def _download_coqui(self, model_name) -> (str, str):
-        """
-        Download a model from Coqui
-        Args:
-            model_name: name of model to download
-
-        Returns:
-            tuple model_path, config_path
-        """
-        model_path, config_path, _ = self.manager.download_model(model_name)
-        return model_path, config_path
-
     def _download_huggingface(self, model_name) -> (str, str):
         """
         Download a model from Huggingface

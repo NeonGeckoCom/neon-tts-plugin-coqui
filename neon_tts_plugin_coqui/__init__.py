@@ -48,6 +48,9 @@ class CoquiTTS(TTS):
         "en": {
             "model": "neongeckocom/tts-vits-ljspeech-en@v0.1", 
         },
+        "fr": {
+            "model": "neongeckocom/tts-vits-css10-fr@v0.1", 
+        },
         "pl": {
             "model": "neongeckocom/tts-vits-mai-pl@v0.3", 
         },

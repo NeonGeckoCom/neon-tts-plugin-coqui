@@ -35,10 +35,8 @@ from typing import Optional
 from ovos_utils.log import LOG
 from ovos_plugin_manager.templates.tts import TTS, TTSValidator
 from ovos_utils.metrics import Stopwatch
-from huggingface_hub import snapshot_download
-from torch import no_grad
-from TTS.utils.manage import ModelManager
-from TTS.utils.synthesizer import Synthesizer
+from huggingface_hub import hf_hub_download
+from torch import no_grad, package
 
 
 class CoquiTTS(TTS):
@@ -46,13 +44,16 @@ class CoquiTTS(TTS):
 
     langs = {
         "en": {
-            "model": "neongeckocom/tts-vits-ljspeech-en@v0.1", 
+            "model": "neongeckocom/tts-vits-ljspeech-en@v0.2", 
+        },
+        "fr": {
+            "model": "neongeckocom/tts-vits-css10-fr@v0.1", 
         },
         "pl": {
-            "model": "neongeckocom/tts-vits-mai-pl@v0.3", 
+            "model": "neongeckocom/tts-vits-mai-pl@v0.4", 
         },
         "uk": {
-            "model": "neongeckocom/tts-vits-mai-uk@v0.5", 
+            "model": "neongeckocom/tts-vits-mai-uk@v0.7", 
         }
     }
 
@@ -68,7 +69,6 @@ class CoquiTTS(TTS):
                                        audio_ext="wav",
                                        ssml_tags=["speak"])
         self.engines = {}
-        self.manager = ModelManager()
         self.cache_engines = self.config.get("cache", True)
         if self.cache_engines:
             self._init_model({"lang": lang})
@@ -125,7 +125,7 @@ class CoquiTTS(TTS):
             return self._audio_to_ipython(wav_data, synthesizer)
 
     @staticmethod
-    def _audio_to_file(wav_data: list, synthesizer: Synthesizer,
+    def _audio_to_file(wav_data: list, synthesizer: object,
                        output_file: str):
         """
         Write synthesized audio to a file
@@ -141,7 +141,7 @@ class CoquiTTS(TTS):
         LOG.debug(f"File access time={stopwatch.time}")
 
     @staticmethod
-    def _audio_to_ipython(wav_data: list, synthesizer: Synthesizer) -> dict:
+    def _audio_to_ipython(wav_data: list, synthesizer: object) -> dict:
         """
         Get a dict representation of synthesized audio for IPython display
         Args:
@@ -166,7 +166,7 @@ class CoquiTTS(TTS):
         libc.malloc_trim(0)
         gc.collect()
 
-    def _init_model(self, speaker: dict) -> (Synthesizer, dict):
+    def _init_model(self, speaker: dict) -> (object, dict):
         """
         Initialize a synthesizer for the specified speaker
         Args:
@@ -195,7 +195,7 @@ class CoquiTTS(TTS):
         LOG.debug(f"RAM={self._get_mem_usage()} MiB")
         return synt, tts_kwargs
 
-    def _init_tts_kwargs(self, lang: str, speaker: dict, synthesizer: Synthesizer) -> dict:
+    def _init_tts_kwargs(self, lang: str, speaker: dict, synthesizer: object) -> dict:
         """
         Parse language and speaker requests into a valid dict of tts kwargs
         Args:
@@ -220,7 +220,7 @@ class CoquiTTS(TTS):
         LOG.debug(f"tts_kwargs={tts_kwargs}")
         return tts_kwargs
 
-    def _init_synthesizer(self, lang: str) -> Synthesizer:
+    def _init_synthesizer(self, lang: str) -> object:
         """
         Create a Synthesizer for the requested language
         Args:
@@ -231,50 +231,14 @@ class CoquiTTS(TTS):
         # TODO: Handle optional `name` and `gender` model specs
         lang_params = self.langs[lang]
         model_name = lang_params["model"]
-        vocoder_name = lang_params.get("vocoder", None)
 
-        model_path, config_path = self._download_model(model_name)
-        vocoder_path, vocoder_config_path = self._download_model(vocoder_name)
+        model_path = self._download_huggingface(model_name)
 
-        synt = Synthesizer(tts_checkpoint=model_path,
-                           tts_config_path=config_path,
-                           vocoder_checkpoint=vocoder_path,
-                           vocoder_config=vocoder_config_path)
+        importer = package.PackageImporter(model_path)
+        synt = importer.load_pickle("tts_models", "model")
         return synt
 
-    def _download_model(self, model_name: str) -> (str, str):
-        """
-        Download a requested model
-        Args:
-            model_name: Name of model to download
-
-        Returns:
-            tuple model_path, config_path
-        """
-        if model_name is None:
-            return None, None
-            
-        prefix = model_name.split("/")[0]
-        if (prefix == "tts_models") or (prefix == "vocoder_models"):
-            model_path, config_path = self._download_coqui(model_name)
-        else:
-            model_path, config_path = self._download_huggingface(model_name)
-
-        return model_path, config_path
-
-    def _download_coqui(self, model_name) -> (str, str):
-        """
-        Download a model from Coqui
-        Args:
-            model_name: name of model to download
-
-        Returns:
-            tuple model_path, config_path
-        """
-        model_path, config_path, _ = self.manager.download_model(model_name)
-        return model_path, config_path
-
-    def _download_huggingface(self, model_name) -> (str, str):
+    def _download_huggingface(self, model_name) -> str:
         """
         Download a model from Huggingface
         Args:
@@ -288,14 +252,9 @@ class CoquiTTS(TTS):
         model_name, *suffix = model_name.split("@")
         revision = dict(enumerate(suffix)).get(0, None)
 
-        repo_path = snapshot_download(model_name, revision=revision)
+        model_path = hf_hub_download(model_name, "model.pt", revision=revision)
 
-        model_path = repo_path + "/model_file.pth.tar"
-        config_path = repo_path + "/config.json"
-
-        self.manager._update_paths(repo_path, config_path)
-        
-        return model_path, config_path
+        return model_path
 
 
 class CoquiTTSValidator(TTSValidator):
@@ -303,8 +262,8 @@ class CoquiTTSValidator(TTSValidator):
         super(CoquiTTSValidator, self).__init__(tts)
 
     def validate_lang(self):
-        if (self.tts.lang not in CoquiTTS.langs):
-            raise KeyError("Language isn't supported")
+        if self.tts.lang.split('-')[0] not in CoquiTTS.langs:
+            raise KeyError(f"Language isn't supported: {self.tts.lang}")
 
     def validate_dependencies(self):
         # TODO: Optionally check dependencies or raise

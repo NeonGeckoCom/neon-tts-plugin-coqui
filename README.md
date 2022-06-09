@@ -11,7 +11,7 @@ tts:
     }
 ```
 # Requirements:
-`sudo apt install libsndfile1 espeak-ng`
+`sudo apt install espeak-ng`
 
 Necessary for recording audio files
 

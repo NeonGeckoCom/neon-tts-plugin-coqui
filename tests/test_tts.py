@@ -44,6 +44,12 @@ class TestTTS(unittest.TestCase):
         ["uk", "Привіт."]
     ]
 
+    @classmethod
+    def setUpClass(TestTTS):
+        import warnings
+        warnings.filterwarnings("ignore", category=DeprecationWarning)
+        warnings.filterwarnings("ignore", category=ResourceWarning) 
+
 
     def setUp(self) -> None:
         self.tts = CoquiTTS(config={"cache":False})

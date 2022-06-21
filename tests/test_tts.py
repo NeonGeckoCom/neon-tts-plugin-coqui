@@ -39,6 +39,7 @@ from neon_tts_plugin_coqui import CoquiTTS
 class TestTTS(unittest.TestCase):
     languages = [
         ["en", "Hello."],
+        ["es", "Hola."],
         ["fr", "Bonjour."],
         ["pl", "Hej."],
         ["uk", "Привіт."]

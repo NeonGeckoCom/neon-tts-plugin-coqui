@@ -41,14 +41,17 @@ class TestTTS(unittest.TestCase):
         self.tts = CoquiTTS(config={"cache":False})
 
     def doCleanups(self) -> None:
-        try:
-            os.remove(os.path.join(os.path.dirname(__file__), "test.wav"))
-        except FileNotFoundError:
-            pass
+        self.deleteFiles()
         try:
             self.tts.playback.stop()
             self.tts.playback.join()
         except (AttributeError, RuntimeError):
+            pass
+
+    def deleteFiles(self) -> None:
+        try:
+            os.remove(os.path.join(os.path.dirname(__file__), "test.wav"))
+        except FileNotFoundError:
             pass
 
     def test_speak_no_params(self):

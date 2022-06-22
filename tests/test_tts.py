@@ -37,18 +37,36 @@ from neon_tts_plugin_coqui import CoquiTTS
 
 
 class TestTTS(unittest.TestCase):
+    languages = [
+        ["en", "Hello."],
+        ["es", "Hola."],
+        ["fr", "Bonjour."],
+        ["pl", "Hej."],
+        ["uk", "Привіт."]
+    ]
+
+    @classmethod
+    def setUpClass(TestTTS):
+        import warnings
+        warnings.filterwarnings("ignore", category=DeprecationWarning)
+        warnings.filterwarnings("ignore", category=ResourceWarning) 
+
+
     def setUp(self) -> None:
         self.tts = CoquiTTS(config={"cache":False})
 
     def doCleanups(self) -> None:
-        try:
-            os.remove(os.path.join(os.path.dirname(__file__), "test.wav"))
-        except FileNotFoundError:
-            pass
+        self.deleteFiles()
         try:
             self.tts.playback.stop()
             self.tts.playback.join()
         except (AttributeError, RuntimeError):
+            pass
+
+    def deleteFiles(self) -> None:
+        try:
+            os.remove(os.path.join(os.path.dirname(__file__), "test.wav"))
+        except FileNotFoundError:
             pass
 
     def test_speak_no_params(self):
@@ -56,37 +74,16 @@ class TestTTS(unittest.TestCase):
         file, _ = self.tts.get_tts("Hello.", out_file)
         self.assertEqual(file, out_file)
 
-    def test_speak_en(self):
-        speaker = {
-            "language" : "en"
-        }
-        out_file = os.path.join(os.path.dirname(__file__), "test.wav")
-        file, _ = self.tts.get_tts("Hello.", out_file, speaker = speaker)
-        self.assertEqual(file, out_file)
-
-    def test_speak_fr(self):
-        speaker = {
-            "language" : "fr"
-        }
-        out_file = os.path.join(os.path.dirname(__file__), "test.wav")
-        file, _ = self.tts.get_tts("Bonjour.", out_file, speaker = speaker)
-        self.assertEqual(file, out_file)
-
-    def test_speak_pl(self):
-        speaker = {
-            "language" : "pl"
-        }
-        out_file = os.path.join(os.path.dirname(__file__), "test.wav")
-        file, _ = self.tts.get_tts("Hej.", out_file, speaker = speaker)
-        self.assertEqual(file, out_file)
-
-    def test_speak_uk(self):
-        speaker = {
-            "language" : "uk"
-        }
-        out_file = os.path.join(os.path.dirname(__file__), "test.wav")
-        file, _ = self.tts.get_tts("Привіт.", out_file, speaker = speaker)
-        self.assertEqual(file, out_file)
+    def test_speak_lang(self):
+        for lang, sentence in self.languages:
+            with self.subTest(lang=lang):
+                speaker = {
+                    "language" : lang
+                }
+                out_file = os.path.join(os.path.dirname(__file__), "test.wav")
+                file, _ = self.tts.get_tts(sentence, out_file, speaker = speaker)
+                self.assertEqual(file, out_file)
+                self.deleteFiles()
 
     def test_ipython_format(self):
         out_file = os.path.join(os.path.dirname(__file__), "test.wav")

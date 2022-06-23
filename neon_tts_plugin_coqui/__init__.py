@@ -52,6 +52,9 @@ class CoquiTTS(TTS):
         "fr": {
             "model": "neongeckocom/tts-vits-css10-fr@v0.1", 
         },
+        "de": {
+            "model": "neongeckocom/tts-vits-css10-de@v0.1", 
+        },
         "pl": {
             "model": "neongeckocom/tts-vits-mai-pl@v0.4", 
         },

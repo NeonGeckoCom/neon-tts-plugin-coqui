@@ -60,7 +60,10 @@ class CoquiTTS(TTS):
         },
         "uk": {
             "model": "neongeckocom/tts-vits-mai-uk@v0.7", 
-        }
+        },
+        "nl": {
+            "model": "neongeckocom/tts-vits-css10-nl@v0.1", 
+        },
     }
 
     def _get_mem_usage(self) -> str:

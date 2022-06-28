@@ -43,7 +43,8 @@ class TestTTS(unittest.TestCase):
         ["fr", "Bonjour."],
         ["de", "Hallo."],
         ["pl", "Hej."],
-        ["uk", "Привіт."]
+        ["uk", "Привіт."],
+        ["nl", "Hallo."]
     ]
 
     @classmethod

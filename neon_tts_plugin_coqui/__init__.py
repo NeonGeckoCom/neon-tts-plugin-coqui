@@ -64,6 +64,9 @@ class CoquiTTS(TTS):
         "nl": {
             "model": "neongeckocom/tts-vits-css10-nl@v0.2", 
         },
+        "fi": {
+            "model": "neongeckocom/tts-vits-css10-fi@v0.1", 
+        },
     }
 
     def _get_mem_usage(self) -> str:

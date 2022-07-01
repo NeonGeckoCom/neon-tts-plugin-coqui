@@ -31,6 +31,10 @@ import sys
 import unittest
 from pprint import pprint
 
+import resampy
+import torch
+import numpy as np
+
 # sys.path.append(os.path.join(os.path.dirname(__file__), "res"))
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from neon_tts_plugin_coqui import CoquiTTS
@@ -53,6 +57,34 @@ class TestTTS(unittest.TestCase):
         import warnings
         warnings.filterwarnings("ignore", category=DeprecationWarning)
         warnings.filterwarnings("ignore", category=ResourceWarning) 
+        # language detector
+        TestTTS.init_lang_detector()
+
+    @classmethod
+    def init_lang_detector(TestTTS):
+        model, lang_dict, lang_group_dict, \
+        (get_language_and_group, _) = torch.hub.load(repo_or_dir='NeonGeckoCom/silero-vad:neon-master',
+                                                           model='silero_lang_detector_95',
+                                                           force_reload=True)
+                                                        
+        TestTTS.lang_detector = {
+            "model": model,
+            "lang_dict": lang_dict,
+            "lang_group_dict": lang_group_dict,
+            "get_language_and_group": get_language_and_group,
+            "sr": 16000
+        }
+
+    def detect_language(self, wav_data: list, synthesizer: object):
+        wav_numpy = np.array(wav_data)
+        wav_low = resampy.resample(wav_numpy, synthesizer.tts_model.ap.sample_rate, self.lang_detector["sr"])
+        wav_tensor = torch.tensor(wav_low, dtype=torch.float32)
+        languages, _ = self.lang_detector["get_language_and_group"](wav_tensor, self.lang_detector["model"], 
+                            self.lang_detector["lang_dict"], self.lang_detector["lang_group_dict"], top_n=2)
+        language = languages[0]
+        print(f'Language: {language[0]} with prob {language[-1]}')
+        lang_code = language[0].split(",")[0]
+        return lang_code
 
 
     def setUp(self) -> None:

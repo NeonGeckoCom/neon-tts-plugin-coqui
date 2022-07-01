@@ -89,7 +89,6 @@ class TestTTS(unittest.TestCase):
                 self.deleteFiles()
 
     def test_ipython_format(self):
-        out_file = os.path.join(os.path.dirname(__file__), "test.wav")
         ipython_dict = self.tts.get_audio("Hello.", audio_format="ipython")
         self.assertIsInstance(ipython_dict, dict)
         self.assertTrue({"data", "rate"} <= {*ipython_dict})

@@ -38,14 +38,14 @@ from neon_tts_plugin_coqui import CoquiTTS
 
 class TestTTS(unittest.TestCase):
     languages = [
-        ["en", "Hello."],
-        ["es", "Hola."],
-        ["fr", "Bonjour."],
-        ["de", "Hallo."],
-        ["pl", "Hej."],
-        ["uk", "Привіт."],
-        ["nl", "Hallo."],
-        ["fi", "Hei."],
+        ["en", "A rainbow is a meteorological phenomenon that is caused by reflection, refraction and dispersion of light."],
+        ["es", "Un arcoíris o arco iris es un fenómeno óptico y meteorológico que consiste en la aparición en el cielo de un arco de luz multicolor."],
+        ["fr", "Un arc-en-ciel est un photométéore, un phénomène optique se produisant dans le ciel, visible dans la direction opposée au Soleil."],
+        ["de", "Der Regenbogen ist ein atmosphärisch-optisches Phänomen, das als kreisbogenförmiges farbiges Lichtband in einer von der Sonne."],
+        ["pl", "Tęcza, zjawisko optyczne i meteorologiczne, występujące w postaci charakterystycznego wielobarwnego łuku."],
+        ["uk", "Веселка, також райдуга оптичне явище в атмосфері, що являє собою одну, дві чи декілька різнокольорових дуг."],
+        ["nl", "Een regenboog is een gekleurde cirkelboog die aan de hemel waargenomen kan worden als de, laagstaande."],
+        ["fi", "Sateenkaari on spektrin väreissä esiintyvä ilmakehän optinen ilmiö. Se syntyy, kun valo taittuu pisaran etupinnasta."],
     ]
 
     @classmethod

@@ -1,2 +1,4 @@
+resampy
+torchaudio
 pytest
 pytest-timeout

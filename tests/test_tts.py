@@ -115,10 +115,9 @@ class TestTTS(unittest.TestCase):
                 speaker = {
                     "language" : lang
                 }
-                out_file = os.path.join(os.path.dirname(__file__), "test.wav")
-                file, _ = self.tts.get_tts(sentence, out_file, speaker = speaker)
-                self.assertEqual(file, out_file)
-                self.deleteFiles()
+                wav_data, synthesizer = self.tts.get_audio(sentence, speaker = speaker)
+                detected_language = self.detect_language(wav_data, synthesizer)
+                self.assertEqual(lang, detected_language)
 
     def test_ipython_format(self):
         ipython_dict = self.tts.get_audio("Hello.", audio_format="ipython")

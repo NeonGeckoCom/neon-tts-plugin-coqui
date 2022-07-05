@@ -64,6 +64,9 @@ class CoquiTTS(TTS):
         "nl": {
             "model": "neongeckocom/tts-vits-css10-nl@v0.2", 
         },
+        "hu": {
+            "model": "NeonBohdan/tts-vits-css10-hu@v0.1", 
+        },
         "fi": {
             "model": "neongeckocom/tts-vits-css10-fi@v0.1", 
         },

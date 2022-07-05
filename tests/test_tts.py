@@ -49,6 +49,7 @@ class TestTTS(unittest.TestCase):
         ["pl", "Tęcza, zjawisko optyczne i meteorologiczne, występujące w postaci charakterystycznego wielobarwnego łuku."],
         ["uk", "Веселка, також райдуга оптичне явище в атмосфері, що являє собою одну, дві чи декілька різнокольорових дуг."],
         ["nl", "Een regenboog is een gekleurde cirkelboog die aan de hemel waargenomen kan worden als de, laagstaande."],
+        ["hu", "A szivárvány olyan optikai jelenség, melyet eső- vagy páracseppek okoznak, mikor a fény prizmaszerűen megtörik rajtuk és színeire bomlik."],
         ["fi", "Sateenkaari on spektrin väreissä esiintyvä ilmakehän optinen ilmiö. Se syntyy, kun valo taittuu pisaran etupinnasta."],
     ]
 

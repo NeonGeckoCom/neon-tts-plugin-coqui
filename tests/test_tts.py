@@ -31,24 +31,78 @@ import sys
 import unittest
 from pprint import pprint
 
+import resampy
+import torch
+import numpy as np
+
 # sys.path.append(os.path.join(os.path.dirname(__file__), "res"))
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from neon_tts_plugin_coqui import CoquiTTS
 
 
 class TestTTS(unittest.TestCase):
+    languages = [
+        ["en", "A rainbow is a meteorological phenomenon that is caused by reflection, refraction and dispersion of light."],
+        ["es", "Un arcoíris o arco iris es un fenómeno óptico y meteorológico que consiste en la aparición en el cielo de un arco de luz multicolor."],
+        ["fr", "Un arc-en-ciel est un photométéore, un phénomène optique se produisant dans le ciel, visible dans la direction opposée au Soleil."],
+        ["de", "Der Regenbogen ist ein atmosphärisch-optisches Phänomen, das als kreisbogenförmiges farbiges Lichtband in einer von der Sonne."],
+        ["pl", "Tęcza, zjawisko optyczne i meteorologiczne, występujące w postaci charakterystycznego wielobarwnego łuku."],
+        ["uk", "Веселка, також райдуга оптичне явище в атмосфері, що являє собою одну, дві чи декілька різнокольорових дуг."],
+        ["nl", "Een regenboog is een gekleurde cirkelboog die aan de hemel waargenomen kan worden als de, laagstaande."],
+        ["hu", "A szivárvány olyan optikai jelenség, melyet eső- vagy páracseppek okoznak, mikor a fény prizmaszerűen megtörik rajtuk és színeire bomlik."],
+        ["fi", "Sateenkaari on spektrin väreissä esiintyvä ilmakehän optinen ilmiö. Se syntyy, kun valo taittuu pisaran etupinnasta."],
+    ]
+
+    @classmethod
+    def setUpClass(TestTTS):
+        import warnings
+        warnings.filterwarnings("ignore", category=DeprecationWarning)
+        warnings.filterwarnings("ignore", category=ResourceWarning) 
+        # language detector
+        TestTTS.init_lang_detector()
+
+    @classmethod
+    def init_lang_detector(TestTTS):
+        model, lang_dict, lang_group_dict, \
+        (get_language_and_group, _) = torch.hub.load(repo_or_dir='NeonGeckoCom/silero-vad:neon-master',
+                                                           model='silero_lang_detector_95',
+                                                           force_reload=True)
+                                                        
+        TestTTS.lang_detector = {
+            "model": model,
+            "lang_dict": lang_dict,
+            "lang_group_dict": lang_group_dict,
+            "get_language_and_group": get_language_and_group,
+            "sr": 16000
+        }
+
+    def detect_language(self, wav_data: list, synthesizer: object):
+        wav_numpy = np.array(wav_data)
+        wav_low = resampy.resample(wav_numpy, synthesizer.tts_model.ap.sample_rate, self.lang_detector["sr"])
+        wav_tensor = torch.tensor(wav_low, dtype=torch.float32)
+        languages, _ = self.lang_detector["get_language_and_group"](wav_tensor, self.lang_detector["model"], 
+                            self.lang_detector["lang_dict"], self.lang_detector["lang_group_dict"], top_n=2)
+        language = languages[0]
+        print(f'Language: {language[0]} with prob {language[-1]}')
+        lang_code = language[0].split(",")[0]
+        return lang_code
+
+
     def setUp(self) -> None:
         self.tts = CoquiTTS(config={"cache":False})
 
     def doCleanups(self) -> None:
-        try:
-            os.remove(os.path.join(os.path.dirname(__file__), "test.wav"))
-        except FileNotFoundError:
-            pass
+        self.deleteFiles()
         try:
             self.tts.playback.stop()
             self.tts.playback.join()
         except (AttributeError, RuntimeError):
+            pass
+
+    def deleteFiles(self) -> None:
+        try:
+            os.remove(os.path.join(os.path.dirname(__file__), "test.wav"))
+        except FileNotFoundError:
             pass
 
     def test_speak_no_params(self):
@@ -56,40 +110,17 @@ class TestTTS(unittest.TestCase):
         file, _ = self.tts.get_tts("Hello.", out_file)
         self.assertEqual(file, out_file)
 
-    def test_speak_en(self):
-        speaker = {
-            "language" : "en"
-        }
-        out_file = os.path.join(os.path.dirname(__file__), "test.wav")
-        file, _ = self.tts.get_tts("Hello.", out_file, speaker = speaker)
-        self.assertEqual(file, out_file)
-
-    def test_speak_fr(self):
-        speaker = {
-            "language" : "fr"
-        }
-        out_file = os.path.join(os.path.dirname(__file__), "test.wav")
-        file, _ = self.tts.get_tts("Bonjour.", out_file, speaker = speaker)
-        self.assertEqual(file, out_file)
-
-    def test_speak_pl(self):
-        speaker = {
-            "language" : "pl"
-        }
-        out_file = os.path.join(os.path.dirname(__file__), "test.wav")
-        file, _ = self.tts.get_tts("Hej.", out_file, speaker = speaker)
-        self.assertEqual(file, out_file)
-
-    def test_speak_uk(self):
-        speaker = {
-            "language" : "uk"
-        }
-        out_file = os.path.join(os.path.dirname(__file__), "test.wav")
-        file, _ = self.tts.get_tts("Привіт.", out_file, speaker = speaker)
-        self.assertEqual(file, out_file)
+    def test_speak_lang(self):
+        for lang, sentence in self.languages:
+            with self.subTest(lang=lang):
+                speaker = {
+                    "language" : lang
+                }
+                wav_data, synthesizer = self.tts.get_audio(sentence, speaker = speaker)
+                detected_language = self.detect_language(wav_data, synthesizer)
+                self.assertEqual(lang, detected_language)
 
     def test_ipython_format(self):
-        out_file = os.path.join(os.path.dirname(__file__), "test.wav")
         ipython_dict = self.tts.get_audio("Hello.", audio_format="ipython")
         self.assertIsInstance(ipython_dict, dict)
         self.assertTrue({"data", "rate"} <= {*ipython_dict})

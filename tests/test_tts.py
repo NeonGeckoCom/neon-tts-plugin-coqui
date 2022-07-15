@@ -41,17 +41,6 @@ from neon_tts_plugin_coqui import CoquiTTS
 
 
 class TestTTS(unittest.TestCase):
-    languages = [
-        ["en", "A rainbow is a meteorological phenomenon that is caused by reflection, refraction and dispersion of light."],
-        ["es", "Un arcoíris o arco iris es un fenómeno óptico y meteorológico que consiste en la aparición en el cielo de un arco de luz multicolor."],
-        ["fr", "Un arc-en-ciel est un photométéore, un phénomène optique se produisant dans le ciel, visible dans la direction opposée au Soleil."],
-        ["de", "Der Regenbogen ist ein atmosphärisch-optisches Phänomen, das als kreisbogenförmiges farbiges Lichtband in einer von der Sonne."],
-        ["pl", "Tęcza, zjawisko optyczne i meteorologiczne, występujące w postaci charakterystycznego wielobarwnego łuku."],
-        ["uk", "Веселка, також райдуга оптичне явище в атмосфері, що являє собою одну, дві чи декілька різнокольорових дуг."],
-        ["nl", "Een regenboog is een gekleurde cirkelboog die aan de hemel waargenomen kan worden als de, laagstaande."],
-        ["hu", "A szivárvány olyan optikai jelenség, melyet eső- vagy páracseppek okoznak, mikor a fény prizmaszerűen megtörik rajtuk és színeire bomlik."],
-        ["fi", "Sateenkaari on spektrin väreissä esiintyvä ilmakehän optinen ilmiö. Se syntyy, kun valo taittuu pisaran etupinnasta."],
-    ]
 
     @classmethod
     def setUpClass(TestTTS):
@@ -111,7 +100,8 @@ class TestTTS(unittest.TestCase):
         self.assertEqual(file, out_file)
 
     def test_speak_lang(self):
-        for lang, sentence in self.languages:
+        for lang in CoquiTTS.langs:
+            sentence = CoquiTTS.langs[lang]["sentence"]
             with self.subTest(lang=lang):
                 speaker = {
                     "language" : lang

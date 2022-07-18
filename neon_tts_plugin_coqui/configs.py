@@ -48,7 +48,7 @@ languages = {
         "sentence": "Tęcza, zjawisko optyczne i meteorologiczne, występujące w postaci charakterystycznego wielobarwnego łuku.",
     },
     "uk": {
-        "model": "neongeckocom/tts-vits-mai-uk@v0.8", 
+        "model": "neongeckocom/tts-vits-mai-uk@v0.9", 
         "sentence": "Веселка, також райдуга оптичне явище в атмосфері, що являє собою одну, дві чи декілька різнокольорових дуг.",
     },
     "nl": {

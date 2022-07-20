@@ -44,7 +44,7 @@ languages = {
         "sentence": "Der Regenbogen ist ein atmosphärisch-optisches Phänomen, das als kreisbogenförmiges farbiges Lichtband in einer von der Sonne.",
     },
     "pl": {
-        "model": "neongeckocom/tts-vits-mai-pl@v0.5", 
+        "model": "neongeckocom/tts-vits-mai-pl@v0.6", 
         "sentence": "Tęcza, zjawisko optyczne i meteorologiczne, występujące w postaci charakterystycznego wielobarwnego łuku.",
     },
     "uk": {

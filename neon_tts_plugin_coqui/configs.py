@@ -45,7 +45,7 @@ languages = {
     },
     "pl": {
         "model": "neongeckocom/tts-vits-mai-pl@v0.6", 
-        "sentence": "Tęcza, zjawisko optyczne i meteorologiczne, występujące w postaci charakterystycznego wielobarwnego łuku.",
+        "sentence": "Tęcza, zjawisko optyczne i meteorologiczne, występujące w postaci charakterystycznego wielobarwnego łuku powstającego w wyniku rozszczepienia światła widzialnego.",
     },
     "uk": {
         "model": "neongeckocom/tts-vits-mai-uk@v0.9", 

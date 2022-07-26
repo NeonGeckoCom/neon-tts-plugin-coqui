@@ -59,6 +59,10 @@ languages = {
         "model": "neongeckocom/tts-vits-css10-hu@v0.1", 
         "sentence": "A szivárvány olyan optikai jelenség, melyet eső- vagy páracseppek okoznak, mikor a fény prizmaszerűen megtörik rajtuk és színeire bomlik.", 
     },
+    "bg": {
+        "model": "neongeckocom/tts-vits-cv-bg@v0.1", 
+        "sentence": "Дъга е оптично и метеорологично явление, свързано с появата в небето на почти непрекъснат спектър на светлината.",
+    },
     "fi": {
         "model": "neongeckocom/tts-vits-css10-fi@v0.1", 
         "sentence": "Sateenkaari on spektrin väreissä esiintyvä ilmakehän optinen ilmiö. Se syntyy, kun valo taittuu pisaran etupinnasta.",

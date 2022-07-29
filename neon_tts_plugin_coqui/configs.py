@@ -49,7 +49,7 @@ languages = {
     },
     "uk": {
         "model": "neongeckocom/tts-vits-mai-uk@v0.9", 
-        "sentence": "Веселка, також райдуга оптичне явище в атмосфері, що являє собою одну, дві чи декілька різнокольорових дуг.",
+        "sentence": "Веселка, також райдуга оптичне явище в атмосфері, що являє собою одну, дві чи декілька різнокольорових дуг, що спостерігаються на тлі хмари, якщо вона розташована проти Сонця.",
     },
     "nl": {
         "model": "neongeckocom/tts-vits-css10-nl@v0.2", 
@@ -66,5 +66,9 @@ languages = {
     "fi": {
         "model": "neongeckocom/tts-vits-css10-fi@v0.1", 
         "sentence": "Sateenkaari on spektrin väreissä esiintyvä ilmakehän optinen ilmiö. Se syntyy, kun valo taittuu pisaran etupinnasta.",
+    },
+    "ga": {
+        "model": "neongeckocom/tts-vits-cv-ga@v0.1", 
+        "sentence": "Do réir lucht na heolaíochta, is é solas na gréine ag taitneamh ar bhraonta báistí sa spéir faoi ndearna an tuar ceatha. Dar linne ná tagann ón ngréin ach aon tsolais amháin, ach ní mar sin atá.",
     },
 }

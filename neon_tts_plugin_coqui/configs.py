@@ -68,7 +68,7 @@ languages = {
         "sentence": "Sateenkaari on spektrin väreissä esiintyvä ilmakehän optinen ilmiö. Se syntyy, kun valo taittuu pisaran etupinnasta.",
     },
     "ga": {
-        "model": "neongeckocom/tts-vits-cv-ga@v0.1", 
+        "model": "neongeckocom/tts-vits-cv-ga@v0.2", 
         "sentence": "Do réir lucht na heolaíochta, is é solas na gréine ag taitneamh ar bhraonta báistí sa spéir faoi ndearna an tuar ceatha. Dar linne ná tagann ón ngréin ach aon tsolais amháin, ach ní mar sin atá.",
     },
 }

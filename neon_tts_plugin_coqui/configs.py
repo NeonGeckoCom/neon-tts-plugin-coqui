@@ -71,6 +71,10 @@ languages = {
         "model": "neongeckocom/tts-vits-cv-sl@v0.1", 
         "sentence": "Mavrica je svetlobni pojav v ozračju, ki ga vidimo v obliki loka spektralnih barv. Nastane zaradi loma, disperzije in odboja sončnih žarkov v vodnih kapljicah v zraku. Mavrica, ki nastane zaradi sončnih žarkov, se vedno pojavi na nasprotni strani od Sonca, tako da ima opazovalec Sonce vedno za hrbtom.",
     },
+    "lv": {
+        "model": "neongeckocom/tts-vits-cv-lv@v0.1", 
+        "sentence": "Varavīksne ir optiska parādība atmosfērā, kuru rada Saules staru laušana un atstarošana krītošos lietus pilienos. Tā parādās iepretim Saulei uz mākoņu fona, kad līst. Varavīksnes loks pāri debesjumam ir viens no krāšņākajiem dabas skatiem. Pārējās krāsas izvietojušās atbilstoši tā loka gammai.",
+    },
     "ga": {
         "model": "neongeckocom/tts-vits-cv-ga@v0.2", 
         "sentence": "Do réir lucht na heolaíochta, is é solas na gréine ag taitneamh ar bhraonta báistí sa spéir faoi ndearna an tuar ceatha. Dar linne ná tagann ón ngréin ach aon tsolais amháin, ach ní mar sin atá.",

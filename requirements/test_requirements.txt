@@ -1,4 +1,4 @@
+speechbrain
 resampy
-torchaudio
 pytest
 pytest-timeout

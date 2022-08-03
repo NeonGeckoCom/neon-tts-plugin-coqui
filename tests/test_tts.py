@@ -44,7 +44,6 @@ from neon_tts_plugin_coqui import CoquiTTS
 class TestTTS(unittest.TestCase):
     lang_exeptions = {
         "ga": "en",
-        "lv": "hr",
     }
 
     @classmethod

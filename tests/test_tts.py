@@ -111,7 +111,7 @@ class TestTTS(unittest.TestCase):
                     lang_exeption = self.lang_exeptions[lang]
                     print(f"Language {lang} is an exeption and detected as {lang_exeption}")
                     lang = lang_exeption
-                self.assertEqual(lang, detected_language)
+                self.assertIn(detected_language, lang)
 
     def test_ipython_format(self):
         ipython_dict = self.tts.get_audio("Hello.", audio_format="ipython")

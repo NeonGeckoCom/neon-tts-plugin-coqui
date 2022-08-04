@@ -71,8 +71,8 @@ class TestTTS(unittest.TestCase):
         wav_tensor = torch.tensor(wav_low, dtype=torch.float32)
         prediction = self.lang_detector["model"].classify_batch(wav_tensor)
         language = prediction[3][0]
-        score = prediction[1][0]
-        print(f'Language: {language} with score {score:.2f}')
+        score = prediction[1][0].exp()
+        print(f'Language: {language} with prob {score:.2f}')
         lang_code = language.split(":")[0]
         return lang_code
 

@@ -51,10 +51,6 @@ languages = {
         "model": "neongeckocom/tts-vits-mai-uk@v0.9", 
         "sentence": "Веселка, також райдуга оптичне явище в атмосфері, що являє собою одну, дві чи декілька різнокольорових дуг, що спостерігаються на тлі хмари, якщо вона розташована проти Сонця.",
     },
-    "nl": {
-        "model": "neongeckocom/tts-vits-css10-nl@v0.2", 
-        "sentence": "Een regenboog is een gekleurde cirkelboog die aan de hemel waargenomen kan worden als de, laagstaande.",
-    },
     "hu": {
         "model": "neongeckocom/tts-vits-css10-hu@v0.1", 
         "sentence": "A szivárvány olyan optikai jelenség, melyet eső- vagy páracseppek okoznak, mikor a fény prizmaszerűen megtörik rajtuk és színeire bomlik.", 
@@ -62,6 +58,10 @@ languages = {
     "bg": {
         "model": "neongeckocom/tts-vits-cv-bg@v0.1", 
         "sentence": "Дъга е оптично и метеорологично явление, свързано с появата в небето на почти непрекъснат спектър на светлината.",
+    },
+    "nl": {
+        "model": "neongeckocom/tts-vits-css10-nl@v0.2", 
+        "sentence": "Een regenboog is een gekleurde cirkelboog die aan de hemel waargenomen kan worden als de, laagstaande.",
     },
     "fi": {
         "model": "neongeckocom/tts-vits-css10-fi@v0.1", 

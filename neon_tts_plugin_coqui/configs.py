@@ -51,6 +51,10 @@ languages = {
         "model": "neongeckocom/tts-vits-mai-uk@v0.9", 
         "sentence": "Веселка, також райдуга оптичне явище в атмосфері, що являє собою одну, дві чи декілька різнокольорових дуг, що спостерігаються на тлі хмари, якщо вона розташована проти Сонця.",
     },
+    "ro": {
+        "model": "neongeckocom/tts-vits-cv-ro@v0.1", 
+        "sentence": "Curcubeul este un fenomen optic și meteorologic atmosferic care se manifestă prin apariția pe cer a unui spectru de forma unui arc colorat atunci când lumina soarelui se refractă în picăturile de apă din atmosferă.", 
+    },
     "hu": {
         "model": "neongeckocom/tts-vits-css10-hu@v0.1", 
         "sentence": "A szivárvány olyan optikai jelenség, melyet eső- vagy páracseppek okoznak, mikor a fény prizmaszerűen megtörik rajtuk és színeire bomlik.", 

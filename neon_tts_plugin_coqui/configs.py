@@ -59,6 +59,10 @@ languages = {
         "model": "neongeckocom/tts-vits-css10-hu@v0.1", 
         "sentence": "A szivárvány olyan optikai jelenség, melyet eső- vagy páracseppek okoznak, mikor a fény prizmaszerűen megtörik rajtuk és színeire bomlik.", 
     },
+    "el": {
+        "model": "neongeckocom/tts-vits-cv-el@v0.1", 
+        "sentence": "Το ουράνιο τόξο εμφανίζεται όταν οι ακτίνες του ήλιου χτυπούν σταγόνες βροχής στην ατμόσφαιρα της Γης και είναι ένα παράδειγμα διάθλασης μετά την ανάκλαση.", 
+    },
     "bg": {
         "model": "neongeckocom/tts-vits-cv-bg@v0.1", 
         "sentence": "Дъга е оптично и метеорологично явление, свързано с появата в небето на почти непрекъснат спектър на светлината.",

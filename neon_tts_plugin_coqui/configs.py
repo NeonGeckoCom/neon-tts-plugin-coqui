@@ -28,7 +28,7 @@
 
 languages = {
     "en": {
-        "model": "neongeckocom/tts-vits-ljspeech-en@v0.3", 
+        "model": "neongeckocom/tts-vits-ljspeech-en@v0.4", 
         "sentence": "A rainbow is a meteorological phenomenon that is caused by reflection, refraction and dispersion of light.",
     },
     "es": {

@@ -45,6 +45,7 @@ class CoquiTTS(TTS):
     try:
         proc = psutil.Process(os.getpid())
     except Exception as e:
+        proc = None
         LOG.exception(e)
 
     langs = languages

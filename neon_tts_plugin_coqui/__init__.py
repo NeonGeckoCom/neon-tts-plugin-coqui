@@ -55,7 +55,7 @@ class CoquiTTS(TTS):
         Returns: str memory usage in MiB
         """
         if not self.proc:
-            return
+            return ""
         return self.proc.memory_info().rss / 1048576  # b to MiB
 
     def __init__(self, lang="en", config=None, *args, **kwargs):

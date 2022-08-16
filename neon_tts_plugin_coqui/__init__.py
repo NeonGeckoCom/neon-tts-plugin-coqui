@@ -42,7 +42,11 @@ from .configs import languages
 
 
 class CoquiTTS(TTS):
-    proc = psutil.Process(os.getpid())
+    try:
+        proc = psutil.Process(os.getpid())
+    except Exception as e:
+        proc = None
+        LOG.exception(e)
 
     langs = languages
 
@@ -51,6 +55,8 @@ class CoquiTTS(TTS):
         Get the current process memory usage in MiB
         Returns: str memory usage in MiB
         """
+        if not self.proc:
+            return "???"
         return self.proc.memory_info().rss / 1048576  # b to MiB
 
     def __init__(self, lang="en", config=None, *args, **kwargs):

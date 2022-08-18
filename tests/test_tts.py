@@ -45,6 +45,7 @@ class TestTTS(unittest.TestCase):
     lang_exeptions = {
         "ga": "en",
         "es": "gl,eu,es", #TODO: Spain sub-languages
+        "sv": "nn,sv",
     }
 
     @classmethod

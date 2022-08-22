@@ -87,6 +87,10 @@ languages = {
         "model": "neongeckocom/tts-vits-cv-lv@v0.1", 
         "sentence": "Varavīksne ir optiska parādība atmosfērā, kuru rada Saules staru laušana un atstarošana krītošos lietus pilienos. Tā parādās iepretim Saulei uz mākoņu fona, kad līst. Varavīksnes loks pāri debesjumam ir viens no krāšņākajiem dabas skatiem. Pārējās krāsas izvietojušās atbilstoši tā loka gammai.",
     },
+    "et": {
+        "model": "neongeckocom/tts-vits-cv-et@v0.1", 
+        "sentence": "Vikerkaare põhjustab päikesekiirte eri lainepikkustel erinev murdumine ja peegeldumine ligikaudu kerakujulistelt vihmapiiskadelt vihmaseinal või vihmapilves, kui päikesevalgus langeb piiskadele vaatleja selja tagant.",
+    },
     "ga": {
         "model": "neongeckocom/tts-vits-cv-ga@v0.2", 
         "sentence": "Do réir lucht na heolaíochta, is é solas na gréine ag taitneamh ar bhraonta báistí sa spéir faoi ndearna an tuar ceatha. Dar linne ná tagann ón ngréin ach aon tsolais amháin, ach ní mar sin atá.",

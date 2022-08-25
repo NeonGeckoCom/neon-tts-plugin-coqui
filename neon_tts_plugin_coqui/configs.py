@@ -43,6 +43,10 @@ languages = {
         "model": "neongeckocom/tts-vits-css10-de@v0.2", 
         "sentence": "Der Regenbogen ist ein atmosphärisch-optisches Phänomen, das als kreisbogenförmiges farbiges Lichtband in einer von der Sonne.",
     },
+    "it": {
+        "model": "neongeckocom/tts-vits-cv-it@v0.1", 
+        "sentence": "In fisica dell'atmosfera e meteorologia, l'arcobaleno è un fenomeno ottico atmosferico che produce uno spettro quasi continuo di luce nel cielo quando la luce del Sole attraversa le gocce d'acqua rimaste in sospensione dopo un temporale.",
+    },
     "pl": {
         "model": "neongeckocom/tts-vits-mai-pl@v0.6", 
         "sentence": "Tęcza, zjawisko optyczne i meteorologiczne, występujące w postaci charakterystycznego wielobarwnego łuku powstającego w wyniku rozszczepienia światła widzialnego.",

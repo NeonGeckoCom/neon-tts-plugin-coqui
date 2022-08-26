@@ -119,6 +119,10 @@ class CoquiTTS(TTS):
         elif audio_format == "ipython":
             return self._audio_to_ipython(wav_data, synthesizer)
 
+    @property
+    def available_languages(self):
+        return set(self.langs.keys())
+
     @staticmethod
     def _audio_to_file(wav_data: list, synthesizer: object,
                        output_file: str):

@@ -121,6 +121,11 @@ class TestTTS(unittest.TestCase):
         self.assertTrue({"data", "rate"} <= {*ipython_dict})
         self.assertIsInstance(ipython_dict["data"], list)
 
+    def test_available_languages(self):
+        from neon_tts_plugin_coqui.configs import languages
+        supported_langs = set(languages.keys())
+        self.assertEqual(self.tts.available_languages, supported_langs)
+
 
 if __name__ == '__main__':
     unittest.main()

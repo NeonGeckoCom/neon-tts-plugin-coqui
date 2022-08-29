@@ -83,6 +83,10 @@ languages = {
         "model": "neongeckocom/tts-vits-css10-fi@v0.1", 
         "sentence": "Sateenkaari on spektrin väreissä esiintyvä ilmakehän optinen ilmiö. Se syntyy, kun valo taittuu pisaran etupinnasta.",
     },
+    "lt": {
+        "model": "neongeckocom/tts-vits-cv-lt@v0.1", 
+        "sentence": "Vaivorykštė - optinis ir meteorologinis reiškinys, kuomet Saulei apšvietus atmosferoje esančius vandens lašelius, danguje atsiranda ištisinė spalvų spektro juosta.",
+    },
     "sl": {
         "model": "neongeckocom/tts-vits-cv-sl@v0.1", 
         "sentence": "Mavrica je svetlobni pojav v ozračju, ki ga vidimo v obliki loka spektralnih barv. Nastane zaradi loma, disperzije in odboja sončnih žarkov v vodnih kapljicah v zraku. Mavrica, ki nastane zaradi sončnih žarkov, se vedno pojavi na nasprotni strani od Sonca, tako da ima opazovalec Sonce vedno za hrbtom.",

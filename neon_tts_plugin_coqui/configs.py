@@ -67,6 +67,10 @@ languages = {
         "model": "neongeckocom/tts-vits-cv-el@v0.1", 
         "sentence": "Το ουράνιο τόξο εμφανίζεται όταν οι ακτίνες του ήλιου χτυπούν σταγόνες βροχής στην ατμόσφαιρα της Γης και είναι ένα παράδειγμα διάθλασης μετά την ανάκλαση.", 
     },
+    "cs": {
+        "model": "neongeckocom/tts-vits-cv-cs@v0.1", 
+        "sentence": "Duha je fotometeor, projevující se jako skupina soustředných barevných oblouků, které vznikají lomem a vnitřním odrazem slunečního nebo měsíčního světla na vodních kapkách v atmosféře.", 
+    },
     "sv": {
         "model": "neongeckocom/tts-vits-cv-sv@v0.1", 
         "sentence": "En regnbåge är ett optiskt, meteorologiskt fenomen som uppträder som ett fullständigt ljusspektrum i form av en båge på himlen då solen lyser på nedfallande regn. Klarast lyser regnbågen då halva himlen fortfarande är täckt med mörka moln som avger regn och betraktaren befinner sig under klar himmel.",

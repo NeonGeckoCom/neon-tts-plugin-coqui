@@ -36,7 +36,7 @@ languages = {
         "sentence": "Un arcoíris o arco iris es un fenómeno óptico y meteorológico que consiste en la aparición en el cielo de un arco de luz multicolor.",
     },
     "fr": {
-        "model": "neongeckocom/tts-vits-css10-fr@v0.2", 
+        "model": "neongeckocom/tts-vits-css10-fr@v0.3", 
         "sentence": "Un arc-en-ciel est un photométéore, un phénomène optique se produisant dans le ciel, visible dans la direction opposée au Soleil.",
     },
     "de": {

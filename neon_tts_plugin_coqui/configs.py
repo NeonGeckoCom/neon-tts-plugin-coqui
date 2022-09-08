@@ -79,6 +79,10 @@ languages = {
         "model": "neongeckocom/tts-vits-cv-bg@v0.1", 
         "sentence": "Дъга е оптично и метеорологично явление, свързано с появата в небето на почти непрекъснат спектър на светлината.",
     },
+    "sk": {
+        "model": "neongeckocom/tts-vits-cv-sk@v0.1", 
+        "sentence": "Dúha je optický úkaz vznikajúci v atmosfére Zeme. Vznik dúhy je spôsobený disperziou slnečného svetla prechádzajúceho kvapkou.",
+    },
     "nl": {
         "model": "neongeckocom/tts-vits-css10-nl@v0.2", 
         "sentence": "Een regenboog is een gekleurde cirkelboog die aan de hemel waargenomen kan worden als de, laagstaande.",

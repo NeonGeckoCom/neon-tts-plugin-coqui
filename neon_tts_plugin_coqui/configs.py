@@ -83,6 +83,10 @@ languages = {
         "model": "neongeckocom/tts-vits-cv-bg@v0.1", 
         "sentence": "Дъга е оптично и метеорологично явление, свързано с появата в небето на почти непрекъснат спектър на светлината.",
     },
+    "da": {
+        "model": "neongeckocom/tts-vits-cv-da@v0.1", 
+        "sentence": "En regnbue er et optisk fænomen; en lyseffekt, som skabes på himlen, når lys fra Solen rammer små vanddråber i luften, f.eks. faldende regn.",
+    },
     "sk": {
         "model": "neongeckocom/tts-vits-cv-sk@v0.1", 
         "sentence": "Dúha je optický úkaz vznikajúci v atmosfére Zeme. Vznik dúhy je spôsobený disperziou slnečného svetla prechádzajúceho kvapkou.",

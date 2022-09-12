@@ -111,4 +111,8 @@ languages = {
         "model": "neongeckocom/tts-vits-cv-ga@v0.2", 
         "sentence": "Do réir lucht na heolaíochta, is é solas na gréine ag taitneamh ar bhraonta báistí sa spéir faoi ndearna an tuar ceatha. Dar linne ná tagann ón ngréin ach aon tsolais amháin, ach ní mar sin atá.",
     },
+    "mt": {
+        "model": "neongeckocom/tts-vits-cv-mt@v0.1", 
+        "sentence": "Qawsalla hija fenomenu meteoroloġiku li huwa kkawżat minn riflessjoni, rifrazzjoni u tixrid ta 'dawl fi qtar ta' l-ilma li jirriżulta fi spettru ta 'dawl li jidher fis-sema.",
+    },
 }

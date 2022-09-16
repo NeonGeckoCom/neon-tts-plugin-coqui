@@ -31,6 +31,12 @@ This plugin has a minimum list of dependencies, which in total fit in 900MB on `
 Models are installed on the fly, almost instantly after the first TTS request. You don't need to download languages you don't use.\
 Each model weighs about 100MB, in total you only need ~4GB to get support for 25 languages.
 
+# License:
+
+NeonAI Coqui AI TTS Plugin is available under the [BSD-3-Clause license](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/blob/docs/LICENSE.md)
+
+It is one of the most community-friendly open licenses out there. It has minimal restrictions on how it can be used by developers and end users, making it the most open package with the most supported languages on the market.
+
 # Configuration:
 ```yaml
 tts:

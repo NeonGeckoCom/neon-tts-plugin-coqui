@@ -10,6 +10,9 @@ Dutch, Romanian, Hungarian, Greek, Czech, Swedish, Portuguese, \
 Croatian, Bulgarian, Danish, Slovak, Finnish, Lithuanian, \
 Slovenian, Latvian, Estonian, Irish, Maltese
 
+Feel free to open an issue to request support of your language. We implement the languages we want and not the ones we can.\
+So even Irish and Maltese are not a problem even though they have less than a million native speakers.
+
 # Configuration:
 ```yaml
 tts:

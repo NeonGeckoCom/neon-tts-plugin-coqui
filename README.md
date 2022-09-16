@@ -23,6 +23,8 @@ So even Irish and Maltese are not a problem even though they have less than a mi
     - Raspberry Pi 3/4 and Zero 2 with 64-bit Pi OS
     - Raspberry Pi 4, RTF = 0.5
 
+Real-Time Factor(RTF) - the ratio of how long it takes to generate audio to how long the audio is when spoken.
+
 ## Storage:
 
 This plugin has a minimum list of dependencies, which in total fit in 900MB on `amd64`, and 300MB on `arm64`.\

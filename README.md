@@ -2,6 +2,15 @@
 [Mycroft](https://mycroft-ai.gitbook.io/docs/mycroft-technologies/mycroft-core/plugins) compatible
 TTS Plugin for Coqui AI Text-to-Speech.
 
+# Languages:
+We support all European Union languages such as:
+
+English, Spanish, French, German, Italian, Polish, Ukrainian, 
+
+Dutch, Romanian, Hungarian, Greek, Czech, Swedish, Bulgarian, 
+
+Danish, Slovak, Finnish, Lithuanian, Slovenian, Latvian, Estonian, Irish, Maltese
+
 # Configuration:
 ```yaml
 tts:

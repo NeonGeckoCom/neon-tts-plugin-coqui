@@ -13,7 +13,7 @@ tts:
 # Requirements:
 `sudo apt install espeak-ng`
 
-Necessary for recording audio files
+Necessary for english, greek and some other languages
 
 ## Docker
 

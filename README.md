@@ -3,15 +3,16 @@
 TTS Plugin for Coqui AI Text-to-Speech.
 
 # Languages:
-We support all European Union languages such as:
+We support all European Union languages including:
 
 English, Spanish, French, German, Italian, Polish, Ukrainian, \
 Dutch, Romanian, Hungarian, Greek, Czech, Swedish, Portuguese, \
 Croatian, Bulgarian, Danish, Slovak, Finnish, Lithuanian, \
 Slovenian, Latvian, Estonian, Irish, Maltese
 
-Feel free to open an issue to request support of your language. We implement the languages we want and not the ones we can.\
-So even Irish and Maltese are not a problem even though they have less than a million native speakers.
+Feel free to open an issue to request support of your language.\
+We implement all the languages that are wanted and needed, not just those spoken by the largest number of people.\
+For example, we have already included Irish and Maltese, even though they have less than a million native speakers.
 
 # Performance:
 

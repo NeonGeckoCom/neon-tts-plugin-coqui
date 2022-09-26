@@ -83,6 +83,10 @@ languages = {
         "model": "neongeckocom/tts-vits-cv-bg@v0.1", 
         "sentence": "Дъга е оптично и метеорологично явление, свързано с появата в небето на почти непрекъснат спектър на светлината.",
     },
+    "hr": {
+        "model": "neongeckocom/tts-vits-cv-hr@v0.1", 
+        "sentence": "Duga je česta optička pojava u Zemljinoj atmosferi u obliku jednog ili više obojenih kružnih lukova, koja nastaje jednostrukim ili višestrukim lomom i odbijanjem zraka svjetlosti u kapljicama kiše.",
+    },
     "da": {
         "model": "neongeckocom/tts-vits-cv-da@v0.1", 
         "sentence": "En regnbue er et optisk fænomen; en lyseffekt, som skabes på himlen, når lys fra Solen rammer små vanddråber i luften, f.eks. faldende regn.",

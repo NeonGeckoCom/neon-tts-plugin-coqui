@@ -46,6 +46,7 @@ class TestTTS(unittest.TestCase):
         "ga": "en",
         "es": "gl,eu,es", #TODO: Spain sub-languages
         "sv": "nn,sv",
+        "hr": "bs,hr",
     }
 
     @classmethod

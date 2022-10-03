@@ -79,6 +79,10 @@ languages = {
         "model": "neongeckocom/tts-vits-cv-sv@v0.1", 
         "sentence": "En regnbåge är ett optiskt, meteorologiskt fenomen som uppträder som ett fullständigt ljusspektrum i form av en båge på himlen då solen lyser på nedfallande regn. Klarast lyser regnbågen då halva himlen fortfarande är täckt med mörka moln som avger regn och betraktaren befinner sig under klar himmel.",
     },
+    "pt": {
+        "model": "neongeckocom/tts-vits-cv-pt@v0.1", 
+        "sentence": "Um arco-íris é um fenômeno óptico e meteorológico que separa a luz do sol em seu espectro contínuo quando o sol brilha sobre gotículas de água suspensas no ar.",
+    },
     "bg": {
         "model": "neongeckocom/tts-vits-cv-bg@v0.1", 
         "sentence": "Дъга е оптично и метеорологично явление, свързано с появата в небето на почти непрекъснат спектър на светлината.",

@@ -36,12 +36,16 @@ languages = {
         "sentence": "Un arcoíris o arco iris es un fenómeno óptico y meteorológico que consiste en la aparición en el cielo de un arco de luz multicolor.",
     },
     "fr": {
-        "model": "neongeckocom/tts-vits-css10-fr@v0.2", 
+        "model": "neongeckocom/tts-vits-css10-fr@v0.3", 
         "sentence": "Un arc-en-ciel est un photométéore, un phénomène optique se produisant dans le ciel, visible dans la direction opposée au Soleil.",
     },
     "de": {
         "model": "neongeckocom/tts-vits-css10-de@v0.2", 
         "sentence": "Der Regenbogen ist ein atmosphärisch-optisches Phänomen, das als kreisbogenförmiges farbiges Lichtband in einer von der Sonne.",
+    },
+    "it": {
+        "model": "neongeckocom/tts-vits-cv-it@v0.1", 
+        "sentence": "In fisica dell'atmosfera e meteorologia, l'arcobaleno è un fenomeno ottico atmosferico che produce uno spettro quasi continuo di luce nel cielo quando la luce del Sole attraversa le gocce d'acqua rimaste in sospensione dopo un temporale.",
     },
     "pl": {
         "model": "neongeckocom/tts-vits-mai-pl@v0.6", 
@@ -50,6 +54,10 @@ languages = {
     "uk": {
         "model": "neongeckocom/tts-vits-mai-uk@v0.9", 
         "sentence": "Веселка, також райдуга оптичне явище в атмосфері, що являє собою одну, дві чи декілька різнокольорових дуг, що спостерігаються на тлі хмари, якщо вона розташована проти Сонця.",
+    },
+    "nl": {
+        "model": "neongeckocom/tts-vits-css10-nl@v0.2", 
+        "sentence": "Een regenboog is een gekleurde cirkelboog die aan de hemel waargenomen kan worden als de, laagstaande.",
     },
     "ro": {
         "model": "neongeckocom/tts-vits-cv-ro@v0.1", 
@@ -63,17 +71,41 @@ languages = {
         "model": "neongeckocom/tts-vits-cv-el@v0.1", 
         "sentence": "Το ουράνιο τόξο εμφανίζεται όταν οι ακτίνες του ήλιου χτυπούν σταγόνες βροχής στην ατμόσφαιρα της Γης και είναι ένα παράδειγμα διάθλασης μετά την ανάκλαση.", 
     },
+    "cs": {
+        "model": "neongeckocom/tts-vits-cv-cs@v0.1", 
+        "sentence": "Duha je fotometeor, projevující se jako skupina soustředných barevných oblouků, které vznikají lomem a vnitřním odrazem slunečního nebo měsíčního světla na vodních kapkách v atmosféře.", 
+    },
+    "sv": {
+        "model": "neongeckocom/tts-vits-cv-sv@v0.1", 
+        "sentence": "En regnbåge är ett optiskt, meteorologiskt fenomen som uppträder som ett fullständigt ljusspektrum i form av en båge på himlen då solen lyser på nedfallande regn. Klarast lyser regnbågen då halva himlen fortfarande är täckt med mörka moln som avger regn och betraktaren befinner sig under klar himmel.",
+    },
+    "pt": {
+        "model": "neongeckocom/tts-vits-cv-pt@v0.1", 
+        "sentence": "Um arco-íris é um fenômeno óptico e meteorológico que separa a luz do sol em seu espectro contínuo quando o sol brilha sobre gotículas de água suspensas no ar.",
+    },
     "bg": {
         "model": "neongeckocom/tts-vits-cv-bg@v0.1", 
         "sentence": "Дъга е оптично и метеорологично явление, свързано с появата в небето на почти непрекъснат спектър на светлината.",
     },
-    "nl": {
-        "model": "neongeckocom/tts-vits-css10-nl@v0.2", 
-        "sentence": "Een regenboog is een gekleurde cirkelboog die aan de hemel waargenomen kan worden als de, laagstaande.",
+    "hr": {
+        "model": "neongeckocom/tts-vits-cv-hr@v0.1", 
+        "sentence": "Duga je česta optička pojava u Zemljinoj atmosferi u obliku jednog ili više obojenih kružnih lukova, koja nastaje jednostrukim ili višestrukim lomom i odbijanjem zraka svjetlosti u kapljicama kiše.",
+    },
+    "da": {
+        "model": "neongeckocom/tts-vits-cv-da@v0.1", 
+        "sentence": "En regnbue er et optisk fænomen; en lyseffekt, som skabes på himlen, når lys fra Solen rammer små vanddråber i luften, f.eks. faldende regn.",
+    },
+    "sk": {
+        "model": "neongeckocom/tts-vits-cv-sk@v0.1", 
+        "sentence": "Dúha je optický úkaz vznikajúci v atmosfére Zeme. Vznik dúhy je spôsobený disperziou slnečného svetla prechádzajúceho kvapkou.",
     },
     "fi": {
         "model": "neongeckocom/tts-vits-css10-fi@v0.1", 
         "sentence": "Sateenkaari on spektrin väreissä esiintyvä ilmakehän optinen ilmiö. Se syntyy, kun valo taittuu pisaran etupinnasta.",
+    },
+    "lt": {
+        "model": "neongeckocom/tts-vits-cv-lt@v0.1", 
+        "sentence": "Vaivorykštė - optinis ir meteorologinis reiškinys, kuomet Saulei apšvietus atmosferoje esančius vandens lašelius, danguje atsiranda ištisinė spalvų spektro juosta.",
     },
     "sl": {
         "model": "neongeckocom/tts-vits-cv-sl@v0.1", 
@@ -83,8 +115,16 @@ languages = {
         "model": "neongeckocom/tts-vits-cv-lv@v0.1", 
         "sentence": "Varavīksne ir optiska parādība atmosfērā, kuru rada Saules staru laušana un atstarošana krītošos lietus pilienos. Tā parādās iepretim Saulei uz mākoņu fona, kad līst. Varavīksnes loks pāri debesjumam ir viens no krāšņākajiem dabas skatiem. Pārējās krāsas izvietojušās atbilstoši tā loka gammai.",
     },
+    "et": {
+        "model": "neongeckocom/tts-vits-cv-et@v0.1", 
+        "sentence": "Vikerkaare põhjustab päikesekiirte eri lainepikkustel erinev murdumine ja peegeldumine ligikaudu kerakujulistelt vihmapiiskadelt vihmaseinal või vihmapilves, kui päikesevalgus langeb piiskadele vaatleja selja tagant.",
+    },
     "ga": {
         "model": "neongeckocom/tts-vits-cv-ga@v0.2", 
         "sentence": "Do réir lucht na heolaíochta, is é solas na gréine ag taitneamh ar bhraonta báistí sa spéir faoi ndearna an tuar ceatha. Dar linne ná tagann ón ngréin ach aon tsolais amháin, ach ní mar sin atá.",
+    },
+    "mt": {
+        "model": "neongeckocom/tts-vits-cv-mt@v0.1", 
+        "sentence": "Qawsalla hija fenomenu meteoroloġiku li huwa kkawżat minn riflessjoni, rifrazzjoni u tixrid ta 'dawl fi qtar ta' l-ilma li jirriżulta fi spettru ta 'dawl li jidher fis-sema.",
     },
 }

@@ -49,6 +49,7 @@ def get_requirements(requirements_filename: str):
 
 
 PLUGIN_ENTRY_POINT = 'coqui = neon_tts_plugin_coqui:CoquiTTS'
+CONFIG_ENTRY_POINT = 'coqui.config = neon_tts_plugin_coqui.configs:tts_config'
 
 with open("README.md", "r") as f:
     long_description = f.read()
@@ -81,5 +82,6 @@ setup(
         'Programming Language :: Python :: 3.6',
     ],
     keywords='mycroft plugin tts',
-    entry_points={'mycroft.plugin.tts': PLUGIN_ENTRY_POINT}
+    entry_points={'mycroft.plugin.tts': PLUGIN_ENTRY_POINT,
+                  'mycroft.plugin.tts.config': CONFIG_ENTRY_POINT}
 )

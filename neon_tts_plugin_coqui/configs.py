@@ -325,8 +325,8 @@ languages = {
 tts_config = {config['language']['code']: [
     {
         'lang': config['language']['code'],
-        'display_name': f'{config["language"]["name"]} '
-                        f'({config["language"]["gender"]})',
+        'display_name': f'{config["language"]["name"]}',
+        'gender': config["language"]["gender"],
         'offline': True
     }
 ] for config in languages.values()}

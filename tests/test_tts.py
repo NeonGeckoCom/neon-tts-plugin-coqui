@@ -142,7 +142,7 @@ class TestConfigs(unittest.TestCase):
     def test_tts_config(self):
         from neon_tts_plugin_coqui.configs import languages, tts_config
         self.assertEqual(len(languages), len(tts_config))
-        for lang, configs in tts_config:
+        for lang, configs in tts_config.items():
             self.assertIsInstance(configs, list)
             for config in configs:
                 self.assertEqual(config['lang'], lang)

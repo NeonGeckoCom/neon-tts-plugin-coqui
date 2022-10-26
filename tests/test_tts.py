@@ -47,6 +47,7 @@ class TestTTS(unittest.TestCase):
         "es": "gl,eu,es", #TODO: Spain sub-languages
         "sv": "nn,sv",
         "hr": "bs,hr",
+        "pt": "bg,pt"
     }
 
     @classmethod
@@ -126,6 +127,28 @@ class TestTTS(unittest.TestCase):
         from neon_tts_plugin_coqui.configs import languages
         supported_langs = set(languages.keys())
         self.assertEqual(self.tts.available_languages, supported_langs)
+
+
+class TestConfigs(unittest.TestCase):
+    def test_languages(self):
+        from neon_tts_plugin_coqui.configs import languages
+        self.assertIsInstance(languages, dict)
+        for lang in languages:
+            self.assertEqual(set(languages[lang].keys()),
+                             {'model', 'language', 'sentence'})
+            self.assertIsInstance(languages[lang]['model'], str)
+            self.assertIsInstance(languages[lang]['language'], dict)
+            self.assertIsInstance(languages[lang]['sentence'], str)
+
+    def test_tts_config(self):
+        from neon_tts_plugin_coqui.configs import languages, tts_config
+        self.assertEqual(len(languages), len(tts_config))
+        for lang, configs in tts_config.items():
+            self.assertIsInstance(configs, list)
+            for config in configs:
+                self.assertEqual(config['lang'], lang)
+                self.assertIsInstance(config['display_name'], str)
+                self.assertTrue(config['offline'])
 
 
 if __name__ == '__main__':

@@ -1,6 +1,6 @@
 # TTS
 numpy>=1.19.5
-torch>=1.9
+torch~=1.9,!=1.13.0
 # dependencies
 ovos-plugin-manager~=0.0.2
 psutil

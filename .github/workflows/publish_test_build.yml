@@ -71,7 +71,6 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=ref,event=branch
-            type=raw,value=latest
             type=semver,pattern={{version}},value=${{ steps.version.outputs.version }}
 
       - name: Build and push Docker image

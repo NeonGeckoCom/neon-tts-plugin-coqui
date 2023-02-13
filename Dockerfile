@@ -13,4 +13,4 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends espeak-ng
 COPY --from=compile-image /root/.local /root/.local
 ENV PATH=/root/.local/bin:$PATH
 
-ENTRYPOINT ovos-tts-server --engine neon-tts-plugin-coqui
+ENTRYPOINT ovos-tts-server --engine coqui

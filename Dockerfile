@@ -7,7 +7,7 @@ RUN pip3 install --user torch --no-cache-dir --extra-index-url https://download.
 COPY . /tmp/neon-tts-plugin-coqui
 RUN pip3 install --user /tmp/neon-tts-plugin-coqui --no-cache-dir
 
-RUN pip3 install --user git+https://github.com/OpenVoiceOS/ovos-tts-server
+RUN pip3 install --user git+https://github.com/OpenVoiceOS/ovos-tts-server@b9ee84c48ab6ab5655fffa032359752ab10d2c9d
 
 FROM python:3.9-slim-bullseye AS build-image
 

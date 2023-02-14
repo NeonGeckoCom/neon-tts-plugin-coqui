@@ -8,6 +8,10 @@ on:
     paths-ignore:
       - 'version.py'
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
 jobs:
   build_and_publish_pypi:
     runs-on: ubuntu-latest

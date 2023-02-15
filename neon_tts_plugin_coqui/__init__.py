@@ -69,17 +69,20 @@ class CoquiTTS(TTS):
             self._init_model({"lang": lang})
 
     def get_tts(self, sentence: str, output_file: str,
-                speaker: Optional[dict] = None) -> (str, Optional[str]):
+                speaker: Optional[dict] = None, lang: Optional[str] = None) -> (str, Optional[str]):
         """
         Get Synthesized audio
         Args:
             sentence: string to synthesize
             output_file: path to output audio file
             speaker: optional dict speaker data
-
+            lang: optional lang override
         Returns:
             tuple wav_file, optional phonemes
         """
+        if lang:
+            speaker = speaker or dict()
+            speaker['language'] = lang
         wav_data, synthesizer = self.get_audio(sentence, speaker,
                                                audio_format="internal")
         self._audio_to_file(wav_data, synthesizer, output_file)

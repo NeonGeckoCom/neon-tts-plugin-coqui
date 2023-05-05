@@ -3,6 +3,10 @@ numpy>=1.19.5
 torch~=1.9,!=1.13.0
 # dependencies
 ovos-plugin-manager~=0.0.2
+ovos-utils~=0.0.32
 psutil
 # huggingface
 huggingface-hub
+
+mycroft-messagebus-client~=0.10
+# TODO: Above patching OPM dependency

@@ -1,13 +1,18 @@
-FROM python:3.9-slim
+FROM python:3.9-slim AS compile-image
+
+COPY . /tmp/neon-tts-plugin-coqui
+RUN pip install wheel && \
+    pip install --user \
+    /tmp/neon-tts-plugin-coqui/[docker] --extra-index-url https://download.pytorch.org/whl/cpu
+
+# Copy built packages to a clean image to exclude build-time extras from final image
+FROM python:3.9-slim AS build-image
+COPY --from=compile-image /root/.local /root/.local
+ENV PATH=/root/.local/bin:$PATH
 
 RUN apt-get update && \
     apt-get install -y \
     espeak-ng
-
-COPY . /tmp/neon-tts-plugin-coqui
-RUN pip install wheel && \
-    pip install \
-    /tmp/neon-tts-plugin-coqui/[docker] --extra-index-url https://download.pytorch.org/whl/cpu
 
 ENTRYPOINT ovos-tts-server --engine coqui --gradio \
 --title "🐸💬 - NeonAI Coqui AI TTS Plugin" \

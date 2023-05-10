@@ -6,22 +6,10 @@ on:
   workflow_dispatch:
 
 jobs:
-  build_tests:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
-      - name: Setup Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.8
-      - name: Install Build Tools
-        run: |
-          python -m pip install build wheel
-      - name: Build Distribution Packages
-        run: |
-          python setup.py sdist bdist_wheel
+  py_build_tests:
+    uses: neongeckocom/.github/.github/workflows/python_build_tests.yml@master
+  docker_build_tests:
+    uses: neongeckocom/.github/.github/workflows/docker_build_tests.yml@master
   unit_tests:
     strategy:
       matrix:

@@ -254,7 +254,14 @@ class CoquiTTS(TTS):
         model_name, *suffix = model_name.split("@")
         revision = dict(enumerate(suffix)).get(0, None)
 
-        model_path = hf_hub_download(model_name, "model.pt", revision=revision)
+        try:
+            model_path = hf_hub_download(model_name, "model.pt",
+                                         revision=revision)
+        except ConnectionError as e:
+            LOG.error(e)
+            model_path = hf_hub_download(model_name, "model.pt",
+                                         revision=revision,
+                                         local_files_only=True)
 
         return model_path
 

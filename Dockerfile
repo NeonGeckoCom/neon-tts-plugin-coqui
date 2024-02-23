@@ -1,18 +1,20 @@
-FROM python:3.9-slim-bullseye AS compile-image
-
-RUN apt-get update -y && apt-get install -y python3-pip git
-
-RUN pip3 install --user torch --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cpu
+FROM python:3.9-slim AS compile-image
 
 COPY . /tmp/neon-tts-plugin-coqui
-RUN pip3 install --user /tmp/neon-tts-plugin-coqui --no-cache-dir
+RUN pip install wheel && \
+    pip install --user --no-cache-dir \
+    /tmp/neon-tts-plugin-coqui/[docker] --extra-index-url https://download.pytorch.org/whl/cpu
 
-RUN pip3 install --user git+https://github.com/OpenVoiceOS/ovos-tts-server@b9ee84c48ab6ab5655fffa032359752ab10d2c9d
-
-FROM python:3.9-slim-bullseye AS build-image
-
-RUN apt-get update -y && apt-get install -y --no-install-recommends espeak-ng 
+# Copy built packages to a clean image to exclude build-time extras from final image
+FROM python:3.9-slim AS build-image
 COPY --from=compile-image /root/.local /root/.local
 ENV PATH=/root/.local/bin:$PATH
 
-ENTRYPOINT ovos-tts-server --engine coqui
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    espeak-ng
+
+ENTRYPOINT ovos-tts-server --engine coqui --gradio \
+--title "🐸💬 - Neon AI Coqui AI TTS Plugin" \
+--description "🐸💬 - a deep learning toolkit for Text-to-Speech, battle-tested in research and production" \
+--info "more info at [Neon Coqui TTS Plugin](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui), [Coqui TTS](https://github.com/coqui-ai/TTS)"

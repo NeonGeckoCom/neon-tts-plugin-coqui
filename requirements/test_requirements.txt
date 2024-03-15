@@ -1,4 +1,4 @@
-speechbrain
+speechbrain~=0.5
 resampy
 pytest
 pytest-timeout

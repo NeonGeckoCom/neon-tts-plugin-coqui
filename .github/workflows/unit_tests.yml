@@ -30,7 +30,7 @@ jobs:
         run: |
           pytest tests/test_tts.py --junitxml=tests/tts-test-results.xml
       - name: Upload TTS test results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: pytest-results-${{ matrix.python-version }}
           path: tests/tts-test-results.xml

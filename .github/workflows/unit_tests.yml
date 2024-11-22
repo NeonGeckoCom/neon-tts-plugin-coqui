@@ -16,16 +16,16 @@ jobs:
         python-version: [ 3.7, 3.8, 3.9, "3.10", "3.11" ]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Set up python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: |
           sudo apt-get install espeak-ng
           python -m pip install --upgrade pip wheel
-          pip install -r requirements/requirements.txt -r requirements/test_requirements.txt
+          pip install . -r requirements/test_requirements.txt
       - name: Test TTS
         run: |
           pytest tests/test_tts.py --junitxml=tests/tts-test-results.xml

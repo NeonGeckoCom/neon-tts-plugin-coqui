@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.1a5](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/tree/0.8.1a5) (2025-03-14)
+
+[Full Changelog](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/compare/0.8.1a4...0.8.1a5)
+
+**Merged pull requests:**
+
+- Update dependency to stable version [\#126](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/pull/126) ([NeonDaniel](https://github.com/NeonDaniel))
+
 ## [0.8.1a4](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/tree/0.8.1a4) (2025-03-14)
 
 [Full Changelog](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/compare/0.8.1a3...0.8.1a4)

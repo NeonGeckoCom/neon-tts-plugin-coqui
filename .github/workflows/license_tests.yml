@@ -1,0 +1,8 @@
+name: Run License Tests
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  license_tests:
+    uses: neongeckocom/.github/.github/workflows/license_tests.yml@master

@@ -1,47 +1,44 @@
 # Changelog
 
-## [0.7.3a7](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/tree/0.7.3a7) (2024-02-23)
+## [0.8.1a5](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/tree/0.8.1a5) (2025-03-14)
 
-[Full Changelog](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/compare/0.7.3a6...0.7.3a7)
-
-**Merged pull requests:**
-
-- Update Gradio Web UI [\#114](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/pull/114) ([NeonDaniel](https://github.com/NeonDaniel))
-
-## [0.7.3a6](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/tree/0.7.3a6) (2024-02-23)
-
-[Full Changelog](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/compare/0.7.3a5...0.7.3a6)
+[Full Changelog](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/compare/0.8.1a4...0.8.1a5)
 
 **Merged pull requests:**
 
-- Pin ovos-tts-server version for stable container release [\#113](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/pull/113) ([NeonDaniel](https://github.com/NeonDaniel))
+- Update dependency to stable version [\#126](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/pull/126) ([NeonDaniel](https://github.com/NeonDaniel))
 
-## [0.7.3a5](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/tree/0.7.3a5) (2024-02-23)
+## [0.8.1a4](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/tree/0.8.1a4) (2025-03-14)
 
-[Full Changelog](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/compare/0.7.2...0.7.3a5)
-
-**Implemented enhancements:**
-
-- \[FEAT\] Python3.11-Compatible PyTorch [\#109](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/issues/109)
-
-**Fixed bugs:**
-
-- \[BUG\] I get error message "KeyError: 'en-us'" when I use "CoquiTTS\(\)" [\#99](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/issues/99)
-- Torch Compatibility [\#82](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/issues/82)
-
-**Closed issues:**
-
-- Tried to install Neon tts on Windows 11 using docker commands in PowerShell [\#105](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/issues/105)
-- "TypeError: NoneType object is not callable" when starting ovos-tts-server [\#88](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/issues/88)
+[Full Changelog](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/compare/0.8.1a3...0.8.1a4)
 
 **Merged pull requests:**
 
-- Update automation to publish GH prereleases [\#112](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/pull/112) ([NeonDaniel](https://github.com/NeonDaniel))
-- Fix relative paths in setup.py [\#111](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/pull/111) ([NeonDaniel](https://github.com/NeonDaniel))
-- Loosen dependency for Python 3.11 Compat. [\#110](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/pull/110) ([NeonDaniel](https://github.com/NeonDaniel))
-- Handle connection errors and fall back to local cached model files [\#108](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/pull/108) ([NeonDaniel](https://github.com/NeonDaniel))
-- Update release automation to new workflow [\#104](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/pull/104) ([NeonDaniel](https://github.com/NeonDaniel))
-- Update Docker to include Gradio web UI [\#102](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/pull/102) ([NeonDaniel](https://github.com/NeonDaniel))
+- Update license notices and add changelog automation [\#125](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/pull/125) ([NeonDaniel](https://github.com/NeonDaniel))
+
+## [0.8.1a3](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/tree/0.8.1a3) (2024-09-12)
+
+[Full Changelog](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/compare/0.8.1a2...0.8.1a3)
+
+**Merged pull requests:**
+
+- Update for compat with latest OVOS [\#124](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/pull/124) ([NeonDaniel](https://github.com/NeonDaniel))
+
+## [0.8.1a2](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/tree/0.8.1a2) (2024-08-08)
+
+[Full Changelog](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/compare/0.8.1a1...0.8.1a2)
+
+**Merged pull requests:**
+
+- Update requirements.txt [\#122](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/pull/122) ([NeonDaniel](https://github.com/NeonDaniel))
+
+## [0.8.1a1](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/tree/0.8.1a1) (2024-04-26)
+
+[Full Changelog](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/compare/0.8.0...0.8.1a1)
+
+**Merged pull requests:**
+
+- Update dependencies to allow ovos-utils 0.1 [\#119](https://github.com/NeonGeckoCom/neon-tts-plugin-coqui/pull/119) ([NeonDaniel](https://github.com/NeonDaniel))
 
 
 

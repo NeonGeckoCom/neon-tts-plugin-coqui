@@ -29,7 +29,9 @@
 import os
 import sys
 import unittest
+from os.path import isfile
 from pprint import pprint
+from tempfile import mkstemp
 
 import resampy
 import torch
@@ -97,23 +99,33 @@ class TestTTS(unittest.TestCase):
         except FileNotFoundError:
             pass
 
+    def test_error_cases(self):
+        _, out_file = mkstemp()
+        file, _ = self.tts.get_tts("failed to connect to wifi, verify credentials and try again", out_file)
+        self.assertEqual(file, out_file)
+        print(file)
+        # self.assertEqual(self.detect_language(wav_data=))
+
     def test_speak_no_params(self):
         out_file = os.path.join(os.path.dirname(__file__), "test.wav")
         file, _ = self.tts.get_tts("Hello.", out_file)
         self.assertEqual(file, out_file)
+        self.assertTrue(isfile(file))
 
     def test_speak_lang(self):
         for lang in CoquiTTS.langs:
             sentence = CoquiTTS.langs[lang]["sentence"]
             with self.subTest(lang=lang):
                 speaker = {
-                    "language" : lang
+                    "language": lang
                 }
-                wav_data, synthesizer = self.tts.get_audio(sentence, speaker = speaker)
+                wav_data, synthesizer = self.tts.get_audio(sentence,
+                                                           speaker=speaker)
                 detected_language = self.detect_language(wav_data, synthesizer)
-                if (lang in self.lang_exeptions):
+                if lang in self.lang_exeptions:
                     lang_exeption = self.lang_exeptions[lang]
-                    print(f"Language {lang} is an exeption and detected as {lang_exeption}")
+                    print(f"Language {lang} is an exception and detected as "
+                          f"{lang_exeption}")
                     lang = lang_exeption
                 self.assertIn(detected_language, lang)
 

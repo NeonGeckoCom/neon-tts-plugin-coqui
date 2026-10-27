@@ -26,7 +26,7 @@ jobs:
         run: |
           sudo apt-get install espeak-ng
           python -m pip install --upgrade pip wheel
-          pip install -r requirements/requirements.txt -r requirements/test_requirements.txt
+          pip install -r requirements/requirements.txt -r requirements/test_requirements.txt --extra-index-url https://download.pytorch.org/whl/cpu
       - name: Test TTS
         run: |
           pytest tests/test_tts.py --junitxml=tests/tts-test-results.xml

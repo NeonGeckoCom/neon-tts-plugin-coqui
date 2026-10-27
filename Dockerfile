@@ -1,4 +1,4 @@
-FROM python:3.9-slim AS compile-image
+FROM python:3.11-slim AS compile-image
 
 COPY . /tmp/neon-tts-plugin-coqui
 
@@ -7,7 +7,7 @@ RUN pip install --no-cache-dir wheel && \
     /tmp/neon-tts-plugin-coqui/[docker] --extra-index-url https://download.pytorch.org/whl/cpu
 
 # Copy built packages to a clean image to exclude build-time extras from final image
-FROM python:3.9-slim AS build-image
+FROM python:3.11-slim AS build-image
 COPY --from=compile-image /root/.local /root/.local
 COPY docker_overlay /
 ENV PATH=/root/.local/bin:$PATH

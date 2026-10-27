@@ -6,3 +6,5 @@ on:
 jobs:
   license_tests:
     uses: neongeckocom/.github/.github/workflows/license_tests.yml@master
+    with:
+      packages-exclude: '^(orjson|fann2|neon-core|neon-phal-plugin|ovos-phal-plugin|ovos-skill|precise-runner|tqdm|marisa-trie|nvidia).*'
